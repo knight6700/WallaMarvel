@@ -5,7 +5,10 @@ import ComposableArchitecture
 public struct HeroListRowFeature {
     @ObservableState
     public struct State: Equatable, Identifiable {
-        public var id: Int
+        public var id: Int {
+            hero.id
+        }
+        let hero: Hero
     }
     
     public enum Action: Equatable {
@@ -25,9 +28,9 @@ struct HeroListRowView: View {
     let store: StoreOf<HeroListRowFeature>
     
     var body: some View {
-        VStack {
-            Text("Hello, World!")
-        }
+        HeroCell(hero: store.hero)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 4, leading: 8, bottom: 8, trailing: 4))
     }
 }
 
@@ -35,7 +38,7 @@ struct HeroListRowView: View {
 #Preview {
     HeroListRowView(
         store: Store(
-            initialState: HeroListRowFeature.State(id: .zero),
+            initialState: HeroListRowFeature.State(hero: .mock),
             reducer: { HeroListRowFeature() }
         )
     )

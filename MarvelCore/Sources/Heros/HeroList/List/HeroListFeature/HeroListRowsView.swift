@@ -25,28 +25,44 @@ public struct HeroListRowsFeature {
     }
 }
 struct HeroListRowsView: View {
-    
     let store: StoreOf<HeroListRowsFeature>
     
+    @State var text: String = ""
     var body: some View {
-        ForEach(
-            store.scope(
-                state: \.hero,
-                action: \.hero
-            )
-        ) { childStore in
-            HeroListRowView(store: childStore)
+        List {
+            ForEach(
+                store.scope(
+                    state: \.hero,
+                    action: \.hero
+                )
+            ) { childStore in
+                HeroListRowView(store: childStore)
+            }
         }
+        .searchable(text: $text)
+        .onSubmit(of: .search, {
+            
+        })
+        .refreshable(action: {
+            
+        })
+        .listStyle(.plain)
     }
 }
 
 #if DEBUG
 #Preview {
-    HeroListRowsView(
-        store: Store(
-            initialState: HeroListRowsFeature.State(hero: []),
-            reducer: { HeroListRowsFeature() }
+    NavigationStack {
+        HeroListRowsView(
+            store: Store(
+                initialState: HeroListRowsFeature.State(
+                    hero: .mock
+                ),
+                reducer: { HeroListRowsFeature()
+                }
+            )
         )
-    )
+        .navigationTitle("Heros")
+    }
 }
 #endif

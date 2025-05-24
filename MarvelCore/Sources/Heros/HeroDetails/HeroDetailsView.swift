@@ -8,7 +8,6 @@ public struct HeroDetailsFeature {
         var sections: ResourcesSectionsFeature.State
         let hero: Hero?
     }
-    
     public enum Action: Equatable {
         case sections(ResourcesSectionsFeature.Action)
     }

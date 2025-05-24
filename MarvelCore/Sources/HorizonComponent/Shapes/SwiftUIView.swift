@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//  MarvelCore
-//
-//  Created by MahmoudFares on 24/05/2025.
-//
-
 import SwiftUI
 
 public struct RoundedCorner: Shape {

@@ -36,12 +36,7 @@ struct HeroCell: View {
 
 #Preview {
     HeroCell(
-        hero: Hero(
-            id: 0,
-            imageURL: nil,
-            name: "3-D MAN",
-            shortDescription: "CHARLES CHANDLER & HAL CHANDLER"
-        )
+        hero: .mock
     )
 }
 struct AngledBottomCorners: Shape {
