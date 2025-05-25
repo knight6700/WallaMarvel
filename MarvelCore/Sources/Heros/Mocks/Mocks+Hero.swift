@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  MarvelCore
-//
-//  Created by MahmoudFares on 24/05/2025.
-//
-
 #if DEBUG
 import Foundation
 import IdentifiedCollections
@@ -17,6 +10,7 @@ extension Hero {
         shortDescription: "Hulk is Hulk"
     )
 }
+
 extension Array where Element == Hero {
     static let mock: [Hero] = [
         Hero(

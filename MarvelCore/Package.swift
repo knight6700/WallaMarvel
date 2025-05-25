@@ -14,6 +14,7 @@ private let packageDependancies: [Package.Dependency] = [
     ),
     .package(url: "https://github.com/onevcat/Kingfisher", from: "8.1.1"),
     .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
+    .package(path: "../ArkanaKeys/HorizonKeys")
 ]
 
 private let products: [Product] = [
@@ -46,6 +47,11 @@ private let TCADependancy: Target.Dependency = .product(
     package: "swift-composable-architecture"
 )
 
+private let keys: Target.Dependency = .product(
+    name: "HorizonKeys",
+    package: "HorizonKeys"
+)
+
 let package = Package(
     name: "MarvelCore",
     platforms: [.iOS(.v17)],
@@ -67,7 +73,9 @@ let package = Package(
         ),
         .target(
             name: "HorizonNetwork",
-            dependencies: [],
+            dependencies: [
+                keys
+            ],
             resources: [],
             plugins: swiftLintPlugin
         ),

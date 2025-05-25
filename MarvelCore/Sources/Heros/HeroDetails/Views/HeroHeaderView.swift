@@ -5,11 +5,12 @@ struct HeroHeaderView: View {
     let hero: Hero
     var body: some View {
         HStack(alignment: .center) {
-            Image(.placeholder)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 150)
-
+            ImageView(
+                url: hero.imageURL,
+                size: CGSize(width: 150, height: 150),
+                placeholder: .placeholder
+            )
+            .clipShape(Circle())
             VStack(alignment: .leading) {
                 Text(hero.shortDescription)
                     .font(.subheadline)
@@ -28,5 +29,5 @@ struct HeroHeaderView: View {
 }
 
 #Preview {
-//    HeroHeaderView()
+    HeroHeaderView(hero: .mock)
 }
