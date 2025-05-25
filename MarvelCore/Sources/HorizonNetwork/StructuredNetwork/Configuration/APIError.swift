@@ -21,11 +21,11 @@ public enum APIError: Error, LocalizedError, Equatable {
 }
 
 public protocol APIErrorHandler {
-     func handleNetworkResponse(data: Data?, response: URLResponse?) -> APIError
+    static func handleNetworkResponse(data: Data?, response: URLResponse?) -> APIError
 }
 
 public extension APIErrorHandler {
-      func handleNetworkResponse(data: Data?, response: URLResponse?) -> APIError {
+      static func handleNetworkResponse(data: Data?, response: URLResponse?) -> APIError {
         guard let httpResponse = response as? HTTPURLResponse else {
             return .unknown(NSError(domain: "InvalidResponse", code: 0, userInfo: nil))
         }

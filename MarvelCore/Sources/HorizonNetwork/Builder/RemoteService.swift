@@ -40,6 +40,7 @@ public extension RemoteService {
         }
 
         if let parameters = requestConfiguration.parameters {
+            debugPrint(parameters)
             try requestConfiguration.encoding?.encode(
                 urlRequest: &request, parameters: parameters)
         }
@@ -55,11 +56,16 @@ fileprivate extension String {
         return "\(trimmedBase)/\(trimmedPath)"
     }
 }
-public protocol MarvelServices: RemoteService {}
+public struct MarvelServices: RemoteService {
+    public let requestConfiguration: RequestConfiguration
+    public init(requestConfiguration: RequestConfiguration) {
+        self.requestConfiguration = requestConfiguration
+    }
+}
 
-extension MarvelServices {
-    public var scheme: String { "https" }
-    public var host: String { AppConfig.environment.baseHost }
-    public var port: Int? { AppConfig.environment.basePort }
-    public var basePath: String { "/v1/public/" }
+public extension MarvelServices {
+    var scheme: String { "https" }
+    var host: String { AppConfig.environment.baseHost }
+    var port: Int? { AppConfig.environment.basePort }
+    var basePath: String { "/v1/public/" }
 }

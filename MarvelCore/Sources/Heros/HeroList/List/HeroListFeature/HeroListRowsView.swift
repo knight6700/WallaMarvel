@@ -8,13 +8,29 @@ public struct HeroListRowsFeature {
         var hero: IdentifiedArrayOf<HeroListRowFeature.State> = []
     }
     
+    @Dependency(\.heroAPIClient) var apiClient
+    
     public enum Action: Equatable {
         case hero(IdentifiedActionOf<HeroListRowFeature>)
+        case fetch
     }
     
     public var body: some ReducerOf<Self> {
         Reduce<State, Action> { state, action in
-                .none
+            switch action {
+            case .hero:
+                return .none
+            case .fetch:
+                return .run { [state = state] send in
+                    do {
+                        let params = HeroesParams()
+                        let response = try await self.apiClient.fetchUsers(params)
+                        print(response)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
         }
         .forEach(
             \.hero,
@@ -47,6 +63,9 @@ struct HeroListRowsView: View {
             
         })
         .listStyle(.plain)
+        .onAppear {
+            store.send(.fetch)
+        }
     }
 }
 

@@ -14,7 +14,7 @@ private let packageDependancies: [Package.Dependency] = [
     ),
     .package(url: "https://github.com/onevcat/Kingfisher", from: "8.1.1"),
     .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
-    .package(path: "../ArkanaKeys/HorizonKeys")
+    .package(path: "../ArkanaKeys/HorizonKeys"),
 ]
 
 private let products: [Product] = [
