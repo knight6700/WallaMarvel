@@ -1,13 +1,6 @@
 import SwiftUI
 import HorizonComponent
 
-struct Hero: Identifiable, Equatable {
-    let id: Int
-    let imageURL: URL?
-    let name: String
-    let shortDescription: String
-}
-
 struct HeroCell: View {
     let hero: Hero
     var body: some View {

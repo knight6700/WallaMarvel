@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct LoadingErrorOverlay: ViewModifier {
+public struct LoadingErrorOverlay: ViewModifier {
     @Binding var isLoading: Bool
     @Binding var error: String?
     let action: () -> Void
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         ZStack {
             content
                 .blur(radius: isLoading ? 1 : 0)
@@ -45,7 +45,7 @@ struct LoadingErrorOverlay: ViewModifier {
     }
 }
 extension View {
-    func loadingErrorOverlay(
+    public func loadingErrorOverlay(
         isLoading: Binding<Bool>,
         error: Binding<String?>,
         action: @escaping () -> Void

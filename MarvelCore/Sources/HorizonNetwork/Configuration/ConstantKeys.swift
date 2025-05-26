@@ -1,19 +1,19 @@
 import Foundation
 import HorizonKeys
 
-final class ConstantKeys {
-    static let shared = ConstantKeys()
-
-    let publicKey: String
-    let privateKey: String
-
-    private init() {
+enum ConstantKeys {
+    static var publicKey: String {
         #if DEBUG
-        let keys = HorizonKeys.Debug()
+                HorizonKeys.Debug().publicKey
         #else
-        let keys = HorizonKeys.Release()
+                HorizonKeys.Debug().privateKey
         #endif
-        self.publicKey = keys.publicKey
-        self.privateKey = keys.privateKey
+    }
+    static var privateKey: String {
+        #if DEBUG
+                HorizonKeys.Release().publicKey
+        #else
+                HorizonKeys.Release().privateKey
+        #endif
     }
 }

@@ -1,5 +1,8 @@
 import UIKit
 import netfox
+import SwiftUI
+import ComposableArchitecture
+import Heros
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -11,10 +14,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let presenter = ListHeroesPresenter()
-        let listHeroesViewController = ListHeroesViewController()
-        listHeroesViewController.presenter = presenter
-        
+        let view = HeroListRowsView(
+            store: Store(
+                initialState: HeroListRowsFeature.State(
+                    hero: []
+                ),
+                reducer: { HeroListRowsFeature()
+                }
+            )
+        )
+        let listHeroesViewController = UIHostingController(rootView: view)        
         let navigationController = UINavigationController(rootViewController: listHeroesViewController)
         window.rootViewController = navigationController
         self.window = window

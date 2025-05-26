@@ -12,7 +12,8 @@ public struct HeroListRowFeature {
     }
     
     public enum Action: Equatable {
-        
+        case rowTapped
+        case rowOnAppear
     }
     
     public func reduce(
@@ -31,6 +32,12 @@ struct HeroListRowView: View {
         HeroCell(hero: store.hero)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 4, leading: 8, bottom: 8, trailing: 4))
+            .onAppear {
+                store.send(.rowOnAppear)
+            }
+            .onTapGesture {
+                store.send(.rowTapped)
+            }
     }
 }
 

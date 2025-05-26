@@ -1,8 +1,7 @@
 #if DEBUG
 import Foundation
 import IdentifiedCollections
-
-extension Hero {
+extension Hero: @unchecked Sendable {
     static let mock: Self = Hero(
         id: 0,
         imageURL: nil,

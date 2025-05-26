@@ -7,12 +7,12 @@ public struct RequestConfiguration {
     let path: String
     let method: HTTPMethod
     let headers: [HTTPHeader]?
-    let parameters: RequestParameters?
+    let parameters: Encodable?
     let encoding: ParameterEncoding?
     public init(
         method: HTTPMethod = .get,
         path: String,
-        parameters: RequestParameters? = nil,
+        parameters: Encodable? = nil,
         encoding: ParameterEncoding = .UrlEncoding
     ) {
         self.path = path

@@ -107,5 +107,5 @@ let package = Package(
             //            plugins: swiftLintPlugin,
         ),
     ],
-    swiftLanguageModes: [.version("5.9")]
+    swiftLanguageModes: [.version("6.0")]
 )

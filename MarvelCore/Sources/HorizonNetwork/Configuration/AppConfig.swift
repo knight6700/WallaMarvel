@@ -1,4 +1,7 @@
+import Foundation
+
 enum AppConfig {
     static let environment = Environment.current
-    static let keys = ConstantKeys.shared
+    static let privateKey = ConstantKeys.privateKey
+    static let publicKey = ConstantKeys.publicKey
 }

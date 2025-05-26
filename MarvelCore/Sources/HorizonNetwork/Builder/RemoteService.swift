@@ -6,7 +6,7 @@ public protocol RemoteService {
     var port: Int? { get }
     var basePath: String { get }
     var requestConfiguration: RequestConfiguration { get }
-
+    var baseRequestParameters: BaseRequestParameters { get }
     var fullURL: URL { get }
 }
 
@@ -38,13 +38,17 @@ public extension RemoteService {
                 request.setValue(header.value, forHTTPHeaderField: header.name)
             }
         }
-
+        
         if let parameters = requestConfiguration.parameters {
-            debugPrint(parameters)
             try requestConfiguration.encoding?.encode(
-                urlRequest: &request, parameters: parameters)
+                urlRequest: &request, parameters: parameters
+            )
+            try requestConfiguration.encoding?.encode(
+                urlRequest: &request,
+                parameters: baseRequestParameters
+            )
         }
-
+        
         return request
     }
 }
@@ -57,9 +61,14 @@ fileprivate extension String {
     }
 }
 public struct MarvelServices: RemoteService {
+    public var baseRequestParameters: BaseRequestParameters
     public let requestConfiguration: RequestConfiguration
-    public init(requestConfiguration: RequestConfiguration) {
+    public init(
+        requestConfiguration: RequestConfiguration,
+        baseRequestParameters: BaseRequestParameters = .init()
+    ) {
         self.requestConfiguration = requestConfiguration
+        self.baseRequestParameters = baseRequestParameters
     }
 }
 

@@ -1,11 +1,11 @@
 import Foundation
 
 protocol ParameterEncoder {
-    func encode(urlRequest: inout URLRequest, with parameters: RequestParameters) throws
+    func encode(urlRequest: inout URLRequest, with parameters: Encodable) throws
 }
 
 struct JSONParameterEncoder: ParameterEncoder {
-    func encode(urlRequest: inout URLRequest, with parameters: RequestParameters) throws {
+    func encode(urlRequest: inout URLRequest, with parameters: Encodable) throws {
         do {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -22,21 +22,34 @@ struct JSONParameterEncoder: ParameterEncoder {
 }
 
 public struct URLParameterEncoder: ParameterEncoder {
-    public func encode(urlRequest: inout URLRequest, with parameters: RequestParameters) throws {
-        guard let url = urlRequest.url else { throw APIError.missingURL }
+    public func encode(urlRequest: inout URLRequest, with parameters: Encodable) throws {
+        guard let url = urlRequest.url else {
+            throw APIError.missingURL
+        }
+
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         encoder.dateEncodingStrategy = .iso8601
+
         let data = try encoder.encode(parameters)
+
         guard let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
             throw APIError.encodingFailed
         }
+
         if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), !jsonObject.isEmpty {
-            urlComponents.queryItems = jsonObject.map { key, value in
-                URLQueryItem(name: key, value: "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+            var existingItems = urlComponents.queryItems ?? []
+
+            for (key, value) in jsonObject {
+                if !existingItems.contains(where: { $0.name == key }) {
+                    existingItems.append(URLQueryItem(name: key, value: "\(value)"))
+                }
             }
+
+            urlComponents.queryItems = existingItems
             urlRequest.url = urlComponents.url
         }
+
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded; charset=utf-8",
                                 forHTTPHeaderField: "Content-Type")
@@ -48,7 +61,7 @@ public enum ParameterEncoding {
     case UrlEncoding
     case JsonEncoding
 
-    public func encode(urlRequest: inout URLRequest, parameters: RequestParameters?) throws {
+    public func encode(urlRequest: inout URLRequest, parameters: Encodable?) throws {
         do {
             switch self {
             case .UrlEncoding:

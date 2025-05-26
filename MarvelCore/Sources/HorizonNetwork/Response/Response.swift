@@ -3,7 +3,7 @@ public struct Response<T: Decodable>: Decodable {
     let code: Int
     let status, copyright, attributionText, attributionHTML: String
     let etag: String
-    let data: T
+    public let data: T
     
     public init(
         code: Int,

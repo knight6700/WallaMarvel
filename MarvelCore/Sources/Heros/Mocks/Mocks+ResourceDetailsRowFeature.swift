@@ -1,9 +1,3 @@
-//
-//  SwiftUIView.swift
-//  MarvelCore
-//
-//  Created by MahmoudFares on 24/05/2025.
-//
 #if DEBUG
 import Foundation
 import IdentifiedCollections

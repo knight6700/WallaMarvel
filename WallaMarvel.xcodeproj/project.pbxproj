@@ -30,6 +30,7 @@
 		1E31779C2DE1B0DD00AD12BA /* Heros in Frameworks */ = {isa = PBXBuildFile; productRef = 1E31779B2DE1B0DD00AD12BA /* Heros */; };
 		1E31779E2DE1B0DD00AD12BA /* HorizonComponent in Frameworks */ = {isa = PBXBuildFile; productRef = 1E31779D2DE1B0DD00AD12BA /* HorizonComponent */; };
 		1E3177A02DE1B0DD00AD12BA /* HorizonNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 1E31779F2DE1B0DD00AD12BA /* HorizonNetwork */; };
+		1E4AB51D2DE44D5E007583A7 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1E4AB51C2DE44D5E007583A7 /* ComposableArchitecture */; };
 		1E8ED3CF2DE346F600C9EDDC /* netfox in Frameworks */ = {isa = PBXBuildFile; productRef = 1E8ED3CE2DE346F600C9EDDC /* netfox */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E4AB51D2DE44D5E007583A7 /* ComposableArchitecture in Frameworks */,
 				1E31779C2DE1B0DD00AD12BA /* Heros in Frameworks */,
 				1E3177A02DE1B0DD00AD12BA /* HorizonNetwork in Frameworks */,
 				1E8ED3CF2DE346F600C9EDDC /* netfox in Frameworks */,
@@ -324,6 +326,7 @@
 			mainGroup = 1A0E3A8C2862F7E200132FCB;
 			packageReferences = (
 				1E8ED3CD2DE346F600C9EDDC /* XCRemoteSwiftPackageReference "netfox" */,
+				1E4AB51B2DE44D5E007583A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 1A0E3A962862F7E200132FCB /* Products */;
 			projectDirPath = "";
@@ -486,6 +489,10 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_GLOBAL_ACTOR_ISOLATED_TYPES_USABILITY = YES;
+				SWIFT_UPCOMING_FEATURE_GLOBAL_CONCURRENCY = YES;
+				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 			};
 			name = Debug;
 		};
@@ -539,6 +546,10 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_GLOBAL_ACTOR_ISOLATED_TYPES_USABILITY = YES;
+				SWIFT_UPCOMING_FEATURE_GLOBAL_CONCURRENCY = YES;
+				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -550,13 +561,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2WTP6CWW36;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WallaMarvel/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -577,13 +589,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2WTP6CWW36;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WallaMarvel/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -711,6 +724,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1E4AB51B2DE44D5E007583A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.20.1;
+			};
+		};
 		1E8ED3CD2DE346F600C9EDDC /* XCRemoteSwiftPackageReference "netfox" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kasketis/netfox";
@@ -733,6 +754,11 @@
 		1E31779F2DE1B0DD00AD12BA /* HorizonNetwork */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HorizonNetwork;
+		};
+		1E4AB51C2DE44D5E007583A7 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E4AB51B2DE44D5E007583A7 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 		1E8ED3CE2DE346F600C9EDDC /* netfox */ = {
 			isa = XCSwiftPackageProductDependency;
