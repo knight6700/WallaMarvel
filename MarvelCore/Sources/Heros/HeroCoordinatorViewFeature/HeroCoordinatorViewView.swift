@@ -18,10 +18,13 @@ public struct HeroCoordinatorFeature {
     @ObservableState
     public struct State {
         var path = StackState<Path.State>()
+        var root: HeroListFeature.State
         public init(
-            path: StackState<Path.State> = StackState<Path.State>()
+            path: StackState<Path.State> = StackState<Path.State>(),
+            root: HeroListFeature.State
         ) {
             self.path = path
+            self.root = root
         }
     }
 
@@ -29,12 +32,9 @@ public struct HeroCoordinatorFeature {
         case goBackToScreen(id: StackElementID)
         case path(StackActionOf<Path>)
         case popToRoot
-        case root
-        case delegate(Delegate)
+        case root(HeroListFeature.Action)
     }
-    public enum Delegate {
-        case showHomeScreen
-    }
+    
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -43,23 +43,26 @@ public struct HeroCoordinatorFeature {
             case let .path(action):
                 switch action {
                 case let .element(id: _, action: .heroDetails(heroState)):
-//                    state.path.append(.heroDetails)
                     return .none
                 default:
                     return .none
                 }
             case .popToRoot:
                 return .none
+            case let .root(.delegate(action)):
+                switch action {
+                case let .navigateToHeroDetails(hero):
+                    state.path.append(.heroDetails(HeroDetailsFeature.State(sections: ResourcesSectionsFeature.State(rows: []), hero: hero)))
+                    return .none
+                }
             case .root:
-//                state.path.append(.child)
-                return .none
-            case .root:
-                return .none
-            case .delegate:
                 return .none
             }
         }
         .forEach(\.path, action: \.path)
+        Scope(state: \.root, action: \.root) {
+            HeroListFeature()
+        }
     }
 }
 public struct HeroCoordinatorFeatureRouterView: View {
@@ -68,12 +71,23 @@ public struct HeroCoordinatorFeatureRouterView: View {
         self.store = store
     }
     public var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-            Text("RootView")
+        NavigationStack(
+            path: $store.scope(
+                state: \.path,
+                action: \.path
+            )
+        ) {
+            HeroLisView(
+                store: store.scope(
+                    state: \.root,
+                    action: \.root
+                )
+            )
+            .navigationTitle("Heroes")
         } destination: { store in
             switch store.case {
-            case .heroDetails:
-                Text("ChildViews")
+            case let .heroDetails(childStore):
+                HeroDetailsView(store: childStore)
             }
         }
     }

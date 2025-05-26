@@ -14,18 +14,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let view = HeroListRowsView(
+        let view = HeroCoordinatorFeatureRouterView(
             store: Store(
-                initialState: HeroListRowsFeature.State(
-                    hero: []
+                initialState: HeroCoordinatorFeature.State(
+                    root: HeroListFeature.State(hero: [])
                 ),
-                reducer: { HeroListRowsFeature()
+                reducer: {
+                    HeroCoordinatorFeature()
                 }
             )
         )
-        let listHeroesViewController = UIHostingController(rootView: view)        
-        let navigationController = UINavigationController(rootViewController: listHeroesViewController)
-        window.rootViewController = navigationController
+        let listHeroesViewController = UIHostingController(rootView: view)
+        window.rootViewController = listHeroesViewController
         self.window = window
         self.window?.makeKeyAndVisible()
     }

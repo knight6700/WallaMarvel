@@ -3,7 +3,7 @@ import HorizonComponent
 import ComposableArchitecture
 
 @Reducer
-public struct HeroListRowsFeature {
+public struct HeroListFeature {
     @ObservableState
     public struct State: Equatable {
         var hero: IdentifiedArrayOf<HeroListRowFeature.State> = []
@@ -23,7 +23,9 @@ public struct HeroListRowsFeature {
     }
     @Dependency(\.heroPreFetch) var preFetch
     
-    public init() {}
+    public enum Delegate: Equatable {
+        case navigateToHeroDetails(Hero)
+    }
     
     public enum Action: Equatable, BindableAction {
         case hero(IdentifiedActionOf<HeroListRowFeature>)
@@ -31,6 +33,7 @@ public struct HeroListRowsFeature {
         case repositry(HeroRepositryFeature.Action)
         case binding(BindingAction<State>)
         case reload
+        case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
@@ -65,8 +68,10 @@ public struct HeroListRowsFeature {
                     }
                     return .send(.fetch(isRefeshabale: false))
                 case .rowTapped:
-                    // TODO: - Navigation
-                    return .none
+                    guard let hero = state.hero[id: id]?.hero else {
+                        return .none
+                    }
+                    return .send(.delegate(.navigateToHeroDetails(hero)))
                 }
             case let .fetch(isRefeshabale):
                 return .send(.repositry(.fetchHeroes(name: state.name, isRefeshabale: isRefeshabale)))
@@ -75,7 +80,7 @@ public struct HeroListRowsFeature {
                 state.suggetNames.append(contentsOf: heroes.map {$0.hero.name})
                 state.hero.append(contentsOf: heroes)
                 return .none
-            case .repositry, .binding:
+            case .repositry, .binding, .delegate:
                 return .none
             }
         }
@@ -94,10 +99,10 @@ public struct HeroListRowsFeature {
     }
 }
 
-public struct HeroListRowsView: View {
-    @Bindable var store: StoreOf<HeroListRowsFeature>
+public struct HeroLisView: View {
+    @Bindable var store: StoreOf<HeroListFeature>
     
-    public init(store: StoreOf<HeroListRowsFeature>) {
+    public init(store: StoreOf<HeroListFeature>) {
         self.store = store
     }
     
@@ -138,21 +143,23 @@ public struct HeroListRowsView: View {
             }
         )
         .listStyle(.plain)
-        .onAppear {
-            store.send(.fetch(isRefeshabale: true))
-        }
+        .task(
+            {
+                await store.send(.fetch(isRefeshabale: true), animation: .smooth).finish()
+            }
+        )
     }
 }
 
 #if DEBUG
 #Preview {
     NavigationStack {
-        HeroListRowsView(
+        HeroLisView(
             store: Store(
-                initialState: HeroListRowsFeature.State(
+                initialState: HeroListFeature.State(
                     hero: .mock
                 ),
-                reducer: { HeroListRowsFeature()
+                reducer: { HeroListFeature()
                 }
             )
         )
