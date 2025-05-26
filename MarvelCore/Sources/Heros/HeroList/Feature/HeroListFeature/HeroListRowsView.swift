@@ -9,6 +9,11 @@ public struct HeroListRowsFeature {
         var hero: IdentifiedArrayOf<HeroListRowFeature.State> = []
         var repositryState: HeroRepositryFeature.State = .init()
         var searchText: String = ""
+        var suggetNames: [String] = []
+        var filteredSuggestions: [String] {
+            return suggetNames.sorted().filter { $0.lowercased().contains(searchText.lowercased()) }
+        }
+
         var name: String? {
             searchText.isEmpty ? nil : searchText
         }
@@ -17,15 +22,15 @@ public struct HeroListRowsFeature {
         }
     }
     @Dependency(\.heroPreFetch) var preFetch
-    public init() {
-        
-    }
+    
+    public init() {}
+    
     public enum Action: Equatable, BindableAction {
         case hero(IdentifiedActionOf<HeroListRowFeature>)
         case fetch(isRefeshabale: Bool)
         case repositry(HeroRepositryFeature.Action)
         case binding(BindingAction<State>)
-        case search
+        case reload
     }
     
     public var body: some ReducerOf<Self> {
@@ -37,7 +42,7 @@ public struct HeroListRowsFeature {
                         guard oldValue != newValue else {
                             return .none
                         }
-                        return .send(.search)
+                        return .send(.reload)
                     default:
                         return .none
                     }
@@ -46,7 +51,8 @@ public struct HeroListRowsFeature {
 
         Reduce<State, Action> { state, action in
             switch action {
-            case .search:
+            case .reload:
+                state.hero.removeAll()
                 return .send(.fetch(isRefeshabale: true))
             case let .hero(.element(id, action: action)):
                 switch action {
@@ -59,14 +65,15 @@ public struct HeroListRowsFeature {
                     }
                     return .send(.fetch(isRefeshabale: false))
                 case .rowTapped:
-                    // TODO: - NAvigation
+                    // TODO: - Navigation
                     return .none
                 }
             case let .fetch(isRefeshabale):
                 return .send(.repositry(.fetchHeroes(name: state.name, isRefeshabale: isRefeshabale)))
-            case let .repositry(.delegate(.model(hereos))):
-                let hereos = IdentifiedArray(uniqueElements: hereos.map { HeroListRowFeature.State(hero: $0) })
-                state.hero.append(contentsOf: hereos)
+            case let .repositry(.delegate(.model(heroes))):
+                let heroes = IdentifiedArray(uniqueElements: heroes.map { HeroListRowFeature.State(hero: $0) })
+                state.suggetNames.append(contentsOf: heroes.map {$0.hero.name})
+                state.hero.append(contentsOf: heroes)
                 return .none
             case .repositry, .binding:
                 return .none
@@ -112,14 +119,22 @@ public struct HeroListRowsView: View {
                 
             }
         )
-        .searchable(text: $store.searchText)
+        .searchable(text: $store.searchText, suggestions: {
+            ForEach(store.filteredSuggestions, id: \.self) { suggestion in
+                Button {
+                    store.searchText = suggestion
+                } label: {
+                   Label(suggestion, systemImage: "bookmark")
+                }
+             }
+        })
         .onSubmit(of: .search, {
-            store.send(.fetch(isRefeshabale: true))
+            store.send(.reload)
         })
         
         .refreshable(
             action: {
-                await store.send(.fetch(isRefeshabale: true), animation: .smooth).finish()
+                await store.send(.reload, animation: .smooth).finish()
             }
         )
         .listStyle(.plain)

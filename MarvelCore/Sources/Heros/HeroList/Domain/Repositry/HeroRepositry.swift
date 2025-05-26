@@ -36,7 +36,7 @@ import HorizonNetwork
     ) -> Effect<Action> {
         switch action {
         case let .fetchHeroes(name, isRefeshabale):
-            state.offset += 1
+            state.offset = isRefeshabale ? 0 : state.offset + 1
             return .run { [ offset = state.offset,
                            remote = remote,
                            mapper = mapper] send in

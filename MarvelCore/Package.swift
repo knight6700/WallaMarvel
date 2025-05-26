@@ -85,7 +85,8 @@ let package = Package(
                 kingFisher,
             ],
             resources: [
-                .copy("Resources/Icons/Images.xcassets")
+                .copy("Resources/Icons/Images.xcassets"),
+                .copy("Resources/Colors/Colors.xcassets"),
             ],
             plugins: swiftLintPlugin,
         ),
