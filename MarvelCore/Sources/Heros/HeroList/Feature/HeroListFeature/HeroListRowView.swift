@@ -5,7 +5,7 @@ import ComposableArchitecture
 public struct HeroListRowFeature {
     @ObservableState
     public struct State: Equatable, Identifiable {
-        public var id: Int {
+        public var id: String {
             hero.id
         }
         let hero: Hero

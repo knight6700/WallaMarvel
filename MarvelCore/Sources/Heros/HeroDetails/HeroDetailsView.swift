@@ -62,7 +62,8 @@ struct HeroDetailsView: View {
                     ]
                 ),
                 hero: Hero(
-                    id: 0,
+                    id: "0",
+                    hereoId: 0,
                     imageURL: nil,
                     name: "Fares",
                     shortDescription: "Fares Junior"

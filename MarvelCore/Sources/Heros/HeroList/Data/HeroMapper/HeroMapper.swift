@@ -12,7 +12,8 @@ extension HeroMapper: DependencyKey {
             toDomain: { dto in
                 dto.map {
                     Hero(
-                        id: $0.id,
+                        id: UUID().uuidString,
+                        hereoId: $0.id,
                         imageURL: ThumbnailURLBuilder(thumbnail: $0.thumbnail).build(),
                         name: $0.name,
                         shortDescription: $0.description
