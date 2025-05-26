@@ -3,7 +3,7 @@ import Kingfisher
 
 public struct ImageView: View {
     let url: URL?
-    let size: CGSize
+    let size: CGSize?
     let placeholder: Images
     @State private var loadFailed = false
     public init(
@@ -20,11 +20,19 @@ public struct ImageView: View {
     
     public var body: some View {
         if loadFailed {
-            Image(placeholder)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: size.width, height: size.height)
-                .clipped()
+            if let size = size {
+                Image(placeholder)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: size.width, height: size.height)
+                    .clipped()
+            }else {
+                Image(.placeholder)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                
+            }
         } else {
             KFImage(url)
                 .placeholder {
@@ -37,7 +45,7 @@ public struct ImageView: View {
                 }
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: size.width, height: size.height)
+                .frame(maxWidth: .infinity, maxHeight: size?.width ?? 200)
                 .clipped()
         }
     }

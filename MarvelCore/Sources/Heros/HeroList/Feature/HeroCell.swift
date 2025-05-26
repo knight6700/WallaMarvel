@@ -5,11 +5,11 @@ struct HeroCell: View {
     let hero: Hero
     var body: some View {
         VStack(spacing: 0) {
-            Image(.placeholder)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-
+            ImageView(
+                url: hero.imageURL,
+                size: CGSize(width: 200, height: 200),
+                placeholder: .placeholder
+            )
             VStack(alignment: .leading, spacing: 4) {
                 Text(hero.name)
                     .font(.headline)
@@ -17,6 +17,7 @@ struct HeroCell: View {
                 Text(hero.shortDescription)
                     .font(.subheadline)
                     .foregroundColor(.gray)
+                    .lineLimit(2)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)

@@ -16,6 +16,7 @@ public struct HeroListRowsFeature {
             self.hero = hero
         }
     }
+    @Dependency(\.heroPreFetch) var preFetch
     public init() {
         
     }
@@ -52,8 +53,10 @@ public struct HeroListRowsFeature {
                 case .rowOnAppear:
                     guard state.hero.count > 5,
                           id == state.hero[state.hero.count - 5].id
-                    else { return .none }
-                    // TODO: -  LoadMore
+                    else {
+                        preFetch.preFetch(state.hero.map {$0.hero.imageURL})
+                        return .none
+                    }
                     return .send(.fetch(isRefeshabale: false))
                 case .rowTapped:
                     // TODO: - NAvigation
