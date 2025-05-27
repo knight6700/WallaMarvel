@@ -1,7 +1,10 @@
 import SwiftUI
 import HorizonComponent
 import ComposableArchitecture
-
+struct SearchSuggestions: Identifiable, Equatable {
+    let id: Int
+    let name: String
+}
 @Reducer
 public struct HeroListFeature {
     @ObservableState
@@ -9,14 +12,17 @@ public struct HeroListFeature {
         var hero: IdentifiedArrayOf<HeroListRowFeature.State> = []
         var repositryState: HeroRepositryFeature.State = .init()
         var searchText: String = ""
-        var suggetNames: [String] = []
-        var filteredSuggestions: [String] {
-            return suggetNames.sorted().filter { $0.lowercased().contains(searchText.lowercased()) }
+        var suggestNames: IdentifiedArrayOf<SearchSuggestions> = []
+        var filteredSuggestions: [SearchSuggestions] {
+            return suggestNames
+                .sorted { $0.name < $1.name }
+                .filter { $0.name.lowercased().contains(searchText.lowercased()) }
         }
 
         var name: String? {
             searchText.isEmpty ? nil : searchText
         }
+
         public init(hero: IdentifiedArrayOf<HeroListRowFeature.State>) {
             self.hero = hero
         }
@@ -47,20 +53,6 @@ public struct HeroListFeature {
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-            .onChange(of: \.searchText) { oldValue, newValue in
-                Reduce { state, action in
-                    switch action {
-                    case .binding(\.searchText):
-                        guard oldValue != newValue else {
-                            return .none
-                        }
-                        return .send(.reload)
-                    default:
-                        return .none
-                    }
-                }
-            }
-
         Reduce<State, Action> { state, action in
             switch action {
             case .reload:
@@ -91,8 +83,14 @@ public struct HeroListFeature {
                 switch delegateAction {
                 case let .model(heroes):
                     let heroes = IdentifiedArray(uniqueElements: heroes.map { HeroListRowFeature.State(hero: $0) })
-                    state.suggetNames.append(contentsOf: heroes.map {$0.hero.name})
                     state.hero.append(contentsOf: heroes)
+                    state.suggestNames.append(
+                        contentsOf: IdentifiedArray(
+                            uniqueElements: heroes.map { hero in
+                                SearchSuggestions(id: hero.hero.hereoId, name: hero.hero.name)
+                            }
+                        )
+                    )
                     return .none
                 case let .showLoader(isLoading):
                     return .send(.viewState(.showLoader(isLoading)))
@@ -135,7 +133,7 @@ public struct HeroListFeature {
 
 public struct HeroLisView: View {
     @Bindable var store: StoreOf<HeroListFeature>
-    
+    @FocusState private var isFocused: Bool
     public init(store: StoreOf<HeroListFeature>) {
         self.store = store
     }
@@ -159,25 +157,30 @@ public struct HeroLisView: View {
                 store.send(.fetch(isRefeshabale: false))
             }
         )
-        .searchable(text: $store.searchText, suggestions: {
-            ForEach(store.filteredSuggestions, id: \.self) { suggestion in
+        .searchable(text: $store.searchText)
+        .searchSuggestions {
+            ForEach(store.filteredSuggestions, id: \.id) { suggestion in
                 Button {
-                    store.searchText = suggestion
+                    store.searchText = suggestion.name
                 } label: {
-                   Label(suggestion, systemImage: "bookmark")
+                    Label(suggestion.name, systemImage: "bookmark")
                 }
              }
-        })
-        .onSubmit(of: .search, {
+        }
+        .onSubmit(of: .search) {
             store.send(.reload)
-        })
-        
+        }
         .refreshable(
             action: {
                 await store.send(.reload, animation: .smooth).finish()
             }
         )
         .listStyle(.plain)
+        .onChange(of: store.searchText, { oldValue, newValue in
+            if newValue.isEmpty && oldValue != newValue {
+                store.send(.reload, animation: .smooth)
+            }
+        })
         .task(
             {
                 await store.send(.task, animation: .smooth).finish()

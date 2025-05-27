@@ -16,9 +16,13 @@ public struct HeroDetailsFeature {
         Reduce<State, Action> { state, action in
                 .none
         }
-        Scope(state: \.sections, action: \.sections, child: {
-            ResourcesSectionsFeature()
-        })
+        Scope(
+            state: \.sections,
+            action: \.sections,
+            child: {
+                ResourcesSectionsFeature()
+            }
+        )
     }
 }
 
@@ -33,7 +37,7 @@ struct HeroDetailsView: View {
                         HeroHeaderView(hero: hero)
                     }
                     ResourceSectionsView(store: store.scope(state: \.sections, action: \.sections))
-                        .frame(height: geo.size.height + 300)
+                        .frame(height: geo.size.height + 200)
                 }
                 .padding()
             }

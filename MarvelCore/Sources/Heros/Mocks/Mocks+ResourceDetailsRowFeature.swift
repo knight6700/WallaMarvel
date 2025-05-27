@@ -8,6 +8,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
             ResourceGridRowFeature.State(
                 resource: ResourceItem(
                     id: 1,
+                    imageURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Sample Resource",
                     description: "This is a sample resource used for testing purposes.",
@@ -17,6 +18,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
             ResourceGridRowFeature.State(
                 resource: ResourceItem(
                     id: 2,
+                    imageURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
@@ -26,7 +28,8 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
             ResourceGridRowFeature.State(
                 resource: ResourceItem(
                     id: 3,
-                    resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/9/80/59d2acf17c923.jpg"),
+                    imageURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/9/80/59d2acf17c923.jpg"),
+                    resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
                     price: []
@@ -35,7 +38,8 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
             ResourceGridRowFeature.State(
                 resource: ResourceItem(
                     id: 4,
-                    resourceURL: URL(string: "https://www.marvel.com/characters/abomination"),
+                    imageURL: URL(string: "https://www.marvel.com/characters/abomination"),
+                    resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
                     price: []
@@ -44,6 +48,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
             ResourceGridRowFeature.State(
                 resource: ResourceItem(
                     id: 5,
+                    imageURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",

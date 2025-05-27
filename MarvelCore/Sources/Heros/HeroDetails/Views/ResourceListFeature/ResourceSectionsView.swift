@@ -20,7 +20,10 @@ public struct ResourcesSectionsFeature {
     
     public var body: some ReducerOf<Self> {
         Reduce<State, Action> { state, action in
-                .none
+            switch action {
+            case .rows:
+                return .none
+            }
         }
         .forEach(
             \.rows,

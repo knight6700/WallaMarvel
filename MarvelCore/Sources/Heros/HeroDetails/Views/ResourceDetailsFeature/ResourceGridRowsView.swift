@@ -10,11 +10,17 @@ public struct ResourceGridRowsFeature {
     
     public enum Action: Equatable {
         case resourceDetailsRows(IdentifiedActionOf<ResourceGridRowFeature>)
+        case task
     }
     
     public var body: some ReducerOf<Self> {
         Reduce<State, Action> { state, action in
-                .none
+            switch action {
+            case .task:
+                return .none
+            case .resourceDetailsRows:
+                return .none
+            }
         }
         .forEach(
             \.resourceDetailsRows,
@@ -22,12 +28,13 @@ public struct ResourceGridRowsFeature {
         ) {
             ResourceGridRowFeature()
         }
+        ._printChanges()
     }
 }
 struct ResourceGridRowsView: View {
-    let store: StoreOf<ResourceGridRowsFeature>
+    @Bindable var store: StoreOf<ResourceGridRowsFeature>
     let rows = [
-        GridItem(.flexible(maximum: 180), spacing: 16)
+        GridItem(.flexible(minimum: 180), spacing: 16)
     ]
 
     var body: some View {

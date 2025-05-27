@@ -5,6 +5,7 @@ extension Array where Element == ResourceItem {
         [
             ResourceItem(
                 id: 1,
+                imageURL: URL(string: "https://example.com/comic/1"),
                 resourceURL: URL(string: "https://example.com/comic/1"),
                 name: "Iron Man #1",
                 description: "Tony Stark suits up as Iron Man for the first time.",
@@ -15,7 +16,8 @@ extension Array where Element == ResourceItem {
             ),
             ResourceItem(
                 id: 2,
-                resourceURL: URL(string: "https://example.com/comic/2"),
+                imageURL: URL(string: "https://example.com/comic/2"),
+                resourceURL: URL(string: "https://example.com/comic/1"),
                 name: "Captain America #1",
                 description: "Steve Rogers fights for freedom in his first issue.",
                 price: [
@@ -24,7 +26,8 @@ extension Array where Element == ResourceItem {
             ),
             ResourceItem(
                 id: 3,
-                resourceURL: URL(string: "https://example.com/comic/3"),
+                imageURL: URL(string: "https://example.com/comic/3"),
+                resourceURL: URL(string: "https://example.com/comic/1"),
                 name: "Black Panther #1",
                 description: "The king of Wakanda defends his kingdom.",
                 price: [

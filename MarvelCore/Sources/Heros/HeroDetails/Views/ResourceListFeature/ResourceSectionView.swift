@@ -1,5 +1,6 @@
 import SwiftUI
 import HorizonNetwork
+import HorizonComponent
 import ComposableArchitecture
 
 @Reducer

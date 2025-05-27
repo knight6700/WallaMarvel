@@ -41,12 +41,15 @@ public extension RemoteService {
         
         if let parameters = requestConfiguration.parameters {
             try requestConfiguration.encoding?.encode(
-                urlRequest: &request, parameters: parameters
+                urlRequest: &request,
+                parameters: parameters,
+                encoder: requestConfiguration.encoder
             )
         }
         try requestConfiguration.encoding?.encode(
             urlRequest: &request,
-            parameters: baseRequestParameters
+            parameters: baseRequestParameters,
+            encoder: requestConfiguration.encoder
         )
         return request
     }

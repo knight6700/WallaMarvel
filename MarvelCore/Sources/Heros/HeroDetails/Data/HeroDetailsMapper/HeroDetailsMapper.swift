@@ -12,9 +12,10 @@ extension HeroDetailsMapper: DependencyKey {
                 dto.map {
                     ResourceItem(
                         id: $0.id,
-                        resourceURL: ThumbnailURLBuilder(thumbnail: $0.thumbnail).build(),
+                        imageURL: ThumbnailURLBuilder(thumbnail: $0.thumbnail).build(),
+                        resourceURL: URL(string: $0.resourceURI ?? ""),
                         name: $0.title,
-                        description: $0.description ?? "",
+                        description: $0.description,
                         price:
                             $0.prices?.map {
                                 PriceResource(
@@ -32,7 +33,7 @@ extension HeroDetailsMapper: DependencyKey {
 extension HeroDetailsMapper: TestDependencyKey {
     static var testValue: Self {
         HeroDetailsMapper { toDomain in
-                []
+                .mockResourceItems
         }
     }
     
