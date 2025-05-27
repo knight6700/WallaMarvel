@@ -36,23 +36,49 @@ public struct HeroCoordinatorFeature {
     }
     
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
             case .goBackToScreen:
                 return .none
-            case let .path(action):
-                switch action {
-                case let .element(id: _, action: .heroDetails(heroState)):
-                    return .none
-                default:
-                    return .none
-                }
+            case .path:
+                return .none
             case .popToRoot:
                 return .none
             case let .root(.delegate(action)):
                 switch action {
                 case let .navigateToHeroDetails(hero):
-                    state.path.append(.heroDetails(HeroDetailsFeature.State(sections: ResourcesSectionsFeature.State(rows: []), hero: hero)))
+                    // TODO: - Implement Factory here
+                    state.path.append(
+                        .heroDetails(
+                            HeroDetailsFeature.State(
+                                sections: ResourcesSectionsFeature.State(
+                                    rows: [
+                                        ResourceSectionFeature.State(
+                                            sectionType: .comics,
+                                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
+                                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                                            hereId: hero.hereoId
+                                        ),
+                                        ResourceSectionFeature.State(
+                                            sectionType: .series,
+                                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
+                                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                                            hereId: hero.hereoId
+                                        ),
+                                        ResourceSectionFeature.State(
+                                            sectionType: .stories,
+                                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
+                                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                                            hereId: hero.hereoId
+                                        )
+                                    ]
+                                ),
+                                hero: hero
+                            )
+                        )
+                    )
                     return .none
                 }
             case .root:
@@ -88,6 +114,8 @@ public struct HeroCoordinatorFeatureRouterView: View {
             switch store.case {
             case let .heroDetails(childStore):
                 HeroDetailsView(store: childStore)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("Hero Details")
             }
         }
     }

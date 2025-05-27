@@ -33,7 +33,7 @@ struct HeroDetailsView: View {
                         HeroHeaderView(hero: hero)
                     }
                     ResourceSectionsView(store: store.scope(state: \.sections, action: \.sections))
-                        .frame(height: geo.size.height + 200)
+                        .frame(height: geo.size.height + 300)
                 }
                 .padding()
             }
@@ -49,15 +49,21 @@ struct HeroDetailsView: View {
                     rows: [
                         ResourceSectionFeature.State(
                             sectionType: .comics,
-                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock)
+                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
+                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                            hereId: 1
                         ),
                         ResourceSectionFeature.State(
                             sectionType: .series,
-                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock)
+                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
+                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                            hereId: 2
                         ),
                         ResourceSectionFeature.State(
                             sectionType: .stories,
-                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock)
+                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
+                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                            hereId: 2
                         )
                     ]
                 ),

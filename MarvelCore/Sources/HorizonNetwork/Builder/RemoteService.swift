@@ -43,12 +43,11 @@ public extension RemoteService {
             try requestConfiguration.encoding?.encode(
                 urlRequest: &request, parameters: parameters
             )
-            try requestConfiguration.encoding?.encode(
-                urlRequest: &request,
-                parameters: baseRequestParameters
-            )
         }
-        
+        try requestConfiguration.encoding?.encode(
+            urlRequest: &request,
+            parameters: baseRequestParameters
+        )
         return request
     }
 }

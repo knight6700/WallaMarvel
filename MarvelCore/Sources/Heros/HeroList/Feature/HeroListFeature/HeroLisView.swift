@@ -20,8 +20,15 @@ public struct HeroListFeature {
         public init(hero: IdentifiedArrayOf<HeroListRowFeature.State>) {
             self.hero = hero
         }
+        var isLoading = false
+        var errorMessage: String? = nil
     }
     @Dependency(\.heroPreFetch) var preFetch
+    
+    public enum ViewState: Equatable {
+        case showLoader(Bool)
+        case showErorMessage(String?)
+    }
     
     public enum Delegate: Equatable {
         case navigateToHeroDetails(Hero)
@@ -34,6 +41,8 @@ public struct HeroListFeature {
         case binding(BindingAction<State>)
         case reload
         case delegate(Delegate)
+        case task
+        case viewState(ViewState)
     }
     
     public var body: some ReducerOf<Self> {
@@ -56,7 +65,10 @@ public struct HeroListFeature {
             switch action {
             case .reload:
                 state.hero.removeAll()
-                return .send(.fetch(isRefeshabale: true))
+                return .concatenate(
+                    .send(.viewState(.showLoader(true))),
+                    .send(.fetch(isRefeshabale: true))
+                )
             case let .hero(.element(id, action: action)):
                 switch action {
                 case .rowOnAppear:
@@ -75,12 +87,34 @@ public struct HeroListFeature {
                 }
             case let .fetch(isRefeshabale):
                 return .send(.repositry(.fetchHeroes(name: state.name, isRefeshabale: isRefeshabale)))
-            case let .repositry(.delegate(.model(heroes))):
-                let heroes = IdentifiedArray(uniqueElements: heroes.map { HeroListRowFeature.State(hero: $0) })
-                state.suggetNames.append(contentsOf: heroes.map {$0.hero.name})
-                state.hero.append(contentsOf: heroes)
-                return .none
+            case let .repositry(.delegate(delegateAction)):
+                switch delegateAction {
+                case let .model(heroes):
+                    let heroes = IdentifiedArray(uniqueElements: heroes.map { HeroListRowFeature.State(hero: $0) })
+                    state.suggetNames.append(contentsOf: heroes.map {$0.hero.name})
+                    state.hero.append(contentsOf: heroes)
+                    return .none
+                case let .showLoader(isLoading):
+                    return .send(.viewState(.showLoader(isLoading)))
+                case let .showErorMessage(errorMessage):
+                    return .send(.viewState(.showErorMessage(errorMessage)))
+                }
             case .repositry, .binding, .delegate:
+                return .none
+            case .task:
+                guard state.hero.isEmpty else {
+                    return .none
+                }
+                return .send(.repositry(.fetchHeroes(name: state.name, isRefeshabale: true)))
+            case let .viewState(viewState):
+                switch viewState {
+                case .showLoader(let bool):
+                    state.isLoading = bool
+                    state.errorMessage = nil
+                case let .showErorMessage(errorDescription):
+                    state.isLoading = false
+                    state.errorMessage = errorDescription
+                }
                 return .none
             }
         }
@@ -118,10 +152,11 @@ public struct HeroLisView: View {
             }
         }
         .loadingErrorOverlay(
-            isLoading: $store.repositryState.isLoading,
-            error: $store.repositryState.errorMessage,
+            isLoading: $store.isLoading,
+            error: $store.errorMessage,
             action: {
-                
+                // Handle Retry
+                store.send(.fetch(isRefeshabale: false))
             }
         )
         .searchable(text: $store.searchText, suggestions: {
@@ -145,7 +180,7 @@ public struct HeroLisView: View {
         .listStyle(.plain)
         .task(
             {
-                await store.send(.fetch(isRefeshabale: true), animation: .smooth).finish()
+                await store.send(.task, animation: .smooth).finish()
             }
         )
     }

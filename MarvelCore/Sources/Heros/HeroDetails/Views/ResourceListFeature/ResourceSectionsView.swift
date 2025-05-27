@@ -53,15 +53,21 @@ struct ResourceSectionsView: View {
                 rows: [
                     ResourceSectionFeature.State(
                         sectionType: .comics,
-                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock)
+                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
+                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                        hereId: 1
                     ),
                     ResourceSectionFeature.State(
                         sectionType: .series,
-                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock)
+                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
+                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                        hereId: 2
                     ),
                     ResourceSectionFeature.State(
                         sectionType: .stories,
-                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock)
+                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
+                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                        hereId: 3
                     ),
                 ]
             ),

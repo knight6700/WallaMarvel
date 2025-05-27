@@ -11,7 +11,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Sample Resource",
                     description: "This is a sample resource used for testing purposes.",
-                    type: .cover
+                    price: []
                 )
             ),
             ResourceGridRowFeature.State(
@@ -20,7 +20,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
-                    type: nil
+                    price: []
                 )
             ),
             ResourceGridRowFeature.State(
@@ -29,7 +29,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/9/80/59d2acf17c923.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
-                    type: nil
+                    price: []
                 )
             ),
             ResourceGridRowFeature.State(
@@ -38,7 +38,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
                     resourceURL: URL(string: "https://www.marvel.com/characters/abomination"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
-                    type: nil
+                    price: []
                 )
             ),
             ResourceGridRowFeature.State(
@@ -47,7 +47,7 @@ extension IdentifiedArray where Element == ResourceGridRowFeature.State {
                     resourceURL: URL(string: "https://i.annihil.us/u/prod/marvel/i/mg/5/00/63bd9786689b9.jpg"),
                     name: "Another Resource",
                     description: "Another example resource for UI testing.",
-                    type: nil
+                    price: []
                 )
             )
         ]

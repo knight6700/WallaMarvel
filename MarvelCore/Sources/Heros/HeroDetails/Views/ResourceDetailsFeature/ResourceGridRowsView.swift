@@ -27,7 +27,7 @@ public struct ResourceGridRowsFeature {
 struct ResourceGridRowsView: View {
     let store: StoreOf<ResourceGridRowsFeature>
     let rows = [
-        GridItem(.flexible(minimum: 180), spacing: 16)
+        GridItem(.flexible(maximum: 180), spacing: 16)
     ]
 
     var body: some View {
@@ -43,7 +43,7 @@ struct ResourceGridRowsView: View {
                         ) { childStore in
                             ResourceGridRowView(store: childStore)
                                 .frame(
-                                    width: (proxy.size.width / 3),
+                                    width: (proxy.size.width / 2),
                                     height: proxy.size.height
                                 )
                         }

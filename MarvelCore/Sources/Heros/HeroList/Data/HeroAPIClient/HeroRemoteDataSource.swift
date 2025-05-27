@@ -1,13 +1,13 @@
 import Dependencies
 import HorizonNetwork
 
-struct HeroAPIClient {
+struct HeroRemoteDataSource {
     let fetchHereos: @Sendable (_ params: HeroesParams) async throws -> Response<HeroesDTO>
 }
 
-extension HeroAPIClient: DependencyKey {
+extension HeroRemoteDataSource: DependencyKey {
     static var liveValue: Self {
-        HeroAPIClient(
+        HeroRemoteDataSource(
             fetchHereos: { params in
                 try await NetworkApi.request(
                     MarvelServices(
@@ -24,13 +24,13 @@ extension HeroAPIClient: DependencyKey {
     }
 }
 
-extension HeroAPIClient: TestDependencyKey {
+extension HeroRemoteDataSource: TestDependencyKey {
     static var testValue: Self {
         previewValue
     }
     
     static var previewValue: Self {
-        HeroAPIClient(
+        HeroRemoteDataSource(
             fetchHereos: { _ in
                 Response<HeroesDTO>(code: 200, status: "Success", copyright: "", attributionText: "", attributionHTML: "", etag: "", data: .mock)
             }
@@ -39,8 +39,8 @@ extension HeroAPIClient: TestDependencyKey {
 }
 
 extension DependencyValues {
-    var heroAPIClient: HeroAPIClient {
-        get { self[HeroAPIClient.self] }
-        set { self[HeroAPIClient.self] = newValue }
+    var heroRemoteDataSource: HeroRemoteDataSource {
+        get { self[HeroRemoteDataSource.self] }
+        set { self[HeroRemoteDataSource.self] = newValue }
     }
 }

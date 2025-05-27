@@ -24,7 +24,6 @@ disabled_rules:
   - force_unwrapping
   - function_default_parameter_at_end
   - indentation_width
-  - inert_defer
   - legacy_multiple # Disabled
   - pattern_matching_keywords # Disabled
   - missing_docs
@@ -47,7 +46,6 @@ disabled_rules:
   - todo
   - trailing_closure
   - type_contents_order
-  - unused_capture_list
   - vertical_whitespace_between_cases
 attributes:
   always_on_line_above:

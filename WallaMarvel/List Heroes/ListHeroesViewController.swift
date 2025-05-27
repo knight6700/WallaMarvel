@@ -24,7 +24,7 @@ final class ListHeroesViewController: UIViewController {
 
 extension ListHeroesViewController: ListHeroesUI {
     func update(heroes: [CharacterDataModel]) {
-        listHeroesProvider?.heroes = heroes
+//        listHeroesProvider?.heroes = heroes
     }
 }
 

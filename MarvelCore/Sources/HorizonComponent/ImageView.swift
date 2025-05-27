@@ -44,7 +44,6 @@ public struct ImageView: View {
                     loadFailed = true
                 }
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .frame(maxWidth: .infinity, maxHeight: size?.width ?? 200)
                 .clipped()
         }

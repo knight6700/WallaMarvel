@@ -1,7 +1,7 @@
 
 import Foundation
 
-enum ResourceSection: Int, CaseIterable, Equatable, Hashable {
+public enum ResourceSection: String, CaseIterable, Equatable, Hashable, Sendable {
     case stories
     case comics
     case series

@@ -52,6 +52,13 @@ enum ItemType: String, Codable {
     case empty = ""
     case interiorStory = "interiorStory"
     case pinup = "pinup"
+    case unknown
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = ItemType(rawValue: rawValue) ?? .unknown
+    }
 }
 
 // MARK: - Thumbnail
@@ -72,7 +79,7 @@ enum Extension: String, Codable {
 
 // MARK: - URLElement
 struct URLElement: Codable {
-    let type: URLType
+    let type: URLType?
     let url: String
 }
 
@@ -80,4 +87,11 @@ enum URLType: String, Codable {
     case comiclink = "comiclink"
     case detail = "detail"
     case wiki = "wiki"
+    case unknown
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = URLType(rawValue: rawValue) ?? .unknown
+    }
 }
