@@ -76,8 +76,10 @@ On selecting a hero from the list, a detail view is shown with the character's:
    ```bash
    git clone https://github.com/knight6700/WallaMarvel
    ```
-2. **Install all depencancies**  
+2. **Install all dependancies with Gem**  
+   - Open `Terminal`
    - ```ruby onboarding.rb```
+   - Write private and public keys Api for `Debug` and `Release`
 
 3. **Open in Xcode**  
    - Open the `.xcodeproj`
