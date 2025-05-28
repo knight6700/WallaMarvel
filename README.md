@@ -14,7 +14,7 @@
 3. [App Screenshots](#app-screenshots)
 4. [How It Works](#how-it-works)  
    - [Main View](#1-main-view)  
-   - [Character Details](#3-character-details)
+   - [Hero Details](#2-hero-details)
 5. [Setup & Installation](#setup--installation)
 6. [Architecture Overview](#architecture-overview)  
    - [Data Layer](#data-layer)  
@@ -26,7 +26,7 @@
 10. [API Integration](#api-integration)  
     - [Endpoints](#endpoints)
 11. [Future Enhancements](#future-enhancements)
-12. [Issues](#Issues)
+12. [Issues](#issues)
 13. [Contributing](#contributing)
 14. [License](#license)
 
@@ -62,7 +62,7 @@ The main screen is a table view displaying all characters fetched from the API.
   - hero's image.
   - hero's short description.
 
-### **3. Character Details**
+### **2. Hero Details**
 On selecting a hero from the list, a detail view is shown with the character's:
 - Profile image.
 - Name.
@@ -96,21 +96,48 @@ On selecting a hero from the list, a detail view is shown with the character's:
 
 ## **Architecture Overview**
 
-The app uses the **MVVM architecture** for a clean and scalable structure.
+The app adopts **TCA (The Composable Architecture)** to structure features in a modular, testable, and scalable way, following principles of unidirectional data flow and state management.
+
+---
 
 ### **Data Layer**
-This layer is responsible for fetching data from external sources (e.g., APIs, databases). It includes:
-- **`CharactersDataSource`**: Handles API calls.
-- **`CharactersRepository`**: Provides an interface between the API and the domain layer by handling data fetching and transforming raw API responses into domain models.
+
+This layer handles data retrieval and transformation from remote sources.
+
+* **`HeroesDTO`**: Data Transfer Object representing the raw structure returned from the API.
+* **`HeroRemoteDataSource`**: Responsible for making API calls to fetch hero data.
+* **`HeroMapper`**: Maps `HeroesDTO` to domain-specific models.
+* **`Parameters`**: Encapsulates API query parameters.
+
+---
 
 ### **Domain Layer**
-This layer focuses on the business logic and ensures that the app adheres to clean architecture principles. It includes:
-- **`CharactersUseCase`**: Encapsulates the business logic and uses the repository to fetch or modify data as required.
 
-### **Presentation Layer**
-This layer is concerned with the user interface and user interaction. It includes:
-- **ViewModel**: Processes data provided by the domain layer into a format suitable for the view.
-- **Views/Controllers**: Displays data and captures user interactions.
+Encapsulates business logic and defines contracts between the data and presentation layers.
+
+* **Models**:
+
+  * `Hero`: Core domain model representing a character.
+  * `SearchSuggestions`: Holds logic for filtering/searching heroes.
+  * `ThumbnailURLBuilder`: Helps build image URLs.
+* **Repository**:
+
+  * `HeroRepository`: Acts as the abstraction over the data layer and exposes domain-ready data.
+  * **HeroPreFetch**: Contains logic to pre-fetch or cache data for better UX.
+
+---
+
+### **Feature Layer (Presentation)**
+
+Built using TCA's modular architecture to manage state, actions, effects, and reducers.
+
+* **`HeroListFeature`**: Implements the main feature showing the list of heroes. It includes:
+
+  * `State`: Holds UI-relevant data.
+  * `Action`: Defines all user and system-driven events.
+  * `Reducer`: Handles state mutation based on actions.
+  * `Effect`: Handles side effects like API calls or async operations.
+* **`HeroCell`**: Represents a reusable UI component for displaying a single hero in the list.
 
 ---
 
