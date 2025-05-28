@@ -1,26 +1,22 @@
-//
-//  EncryptBuilder.swift
-//  MarvelCore
-//
-//  Created by MahmoudFares on 28/05/2025.
-//
+import Foundation
+import CryptoKit
 
-
-public struct EncryptBuilder {
-    private let ts: String
+public struct MD5HashGenerator {
+    private let timeStamp: String
     private let privateKey: String
     private let apiKey: String
     public init(
-        ts: String,
+        timeStamp: String,
         privateKey: String,
         apiKey: String
     ) {
-        self.ts = ts
+        self.timeStamp = timeStamp
         self.privateKey = privateKey
         self.apiKey = apiKey
     }
-    func hash() -> String {
-        let hash = "\(ts)\(privateKey)\(apiKey)"
+    
+    func generate() -> String {
+        let hash = "\(timeStamp)\(privateKey)\(apiKey)"
         let digest = Insecure.MD5.hash(data: hash.data(using: .utf8) ?? Data())
         return digest.map { String(format: "%02hhx", $0) }.joined()
     }
