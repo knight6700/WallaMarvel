@@ -52,7 +52,7 @@
 ## **How It Works**
 
 ### **1. Main View**
-The main screen is a table view displaying all hereos fetched from the API.
+The main screen is a table view displaying all heroes fetched from the API.
 
 - Each row displays:
   - hero's name.
@@ -180,7 +180,7 @@ The app fetches data from the **Rick and Morty API**.
 
 ---
 ## **Issues**
-API: The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
+- [API](https://github.com/knight6700/WallaMarvel/issues/6): The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
 ---
 
 ## **Contributing**
