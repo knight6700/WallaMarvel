@@ -3,19 +3,24 @@ import CryptoKit
 import HorizonKeys
 
 public struct BaseRequestParameters: Encodable {
-    public let apikey: String
-    public let ts: String
-    public let hash: String
-
+     let apiKey: String
+     let timeStamp: String
+     let hash: String
+    
+    enum CodingKeys: String, CodingKey {
+        case apiKey = "apikey"
+        case timeStamp = "ts"
+        case hash
+    }
+    
     public init() {
-        self.ts = String(Int(Date().timeIntervalSince1970))
-        self.apikey = AppConfig.publicKey
-        self.hash = "\(ts)\(AppConfig.privateKey)\(apikey)".md5
+        self.timeStamp = String(Int(Date().timeIntervalSince1970))
+        self.apiKey = AppConfig.publicKey
+        self.hash = MD5HashGenerator(
+            timeStamp: timeStamp,
+            privateKey: AppConfig.privateKey,
+            apiKey: apiKey
+        ).generate()
     }
-}
- extension String {
-    var md5: String {
-        let digest = Insecure.MD5.hash(data: self.data(using: .utf8) ?? Data())
-        return digest.map { .init(format: "%02hhx", $0) }.joined()
-    }
+     
 }
