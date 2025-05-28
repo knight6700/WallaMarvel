@@ -24,7 +24,7 @@ public struct ImageView: View {
                 Image(placeholder)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: size.width, height: size.height)
+                    .frame(maxWidth: .infinity, maxHeight: size.height)
                     .clipped()
             }else {
                 Image(.placeholder)
@@ -40,7 +40,6 @@ public struct ImageView: View {
                         .progressViewStyle(.linear)
                 }
                 .onFailure { error in
-                    print("Failed to load image: \(error.localizedDescription)")
                     loadFailed = true
                 }
                 .resizable()

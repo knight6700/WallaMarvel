@@ -1,7 +1,7 @@
 import SwiftUI
 
 public enum Images: String {
-    case placeholder = "placeholderMarvel"
+    case placeholder = "heroPlaceholder"
 }
 
 

@@ -33,6 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     func startMentoring() {
+        #if DEBUG
         NFX.sharedInstance().start()
+        #endif
     }
 }

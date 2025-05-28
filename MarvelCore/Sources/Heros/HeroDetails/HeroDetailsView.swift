@@ -1,4 +1,5 @@
 import SwiftUI
+import HorizonComponent
 import ComposableArchitecture
 
 @Reducer
@@ -7,14 +8,25 @@ public struct HeroDetailsFeature {
     public struct State: Equatable {
         var sections: ResourcesSectionsFeature.State
         let hero: Hero?
+        var showSafari: Bool = false
+        var resourceURL: URL?
     }
-    public enum Action: Equatable {
+    public enum Action: Equatable, BindableAction {
+        case binding(BindingAction<State>)
         case sections(ResourcesSectionsFeature.Action)
     }
     
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce<State, Action> { state, action in
-                .none
+            switch action {
+            case let .sections(.rows(.element(_, action: .resources(.resourceDetailsRows(.element(id: _, action: .rowDidTapped(url))))))):
+                state.resourceURL = url
+                state.showSafari = true
+                return .none
+            case .sections, .binding:
+                return .none
+            }
         }
         Scope(
             state: \.sections,
@@ -27,7 +39,7 @@ public struct HeroDetailsFeature {
 }
 
 struct HeroDetailsView: View {
-    let store: StoreOf<HeroDetailsFeature>
+    @Bindable var store: StoreOf<HeroDetailsFeature>
     
     var body: some View {
         GeometryReader { geo in
@@ -40,6 +52,11 @@ struct HeroDetailsView: View {
                         .frame(height: geo.size.height + 200)
                 }
                 .padding()
+            }
+        }
+        .sheet(isPresented: $store.showSafari) {
+            if let url = store.resourceURL {
+                SafariView(url: url)
             }
         }
     }
