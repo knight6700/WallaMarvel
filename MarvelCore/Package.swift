@@ -107,6 +107,7 @@ let package = Package(
             dependencies: [
                 "Heros",
                 TCADependancy,
+                NETWORK,
             ],
 //            plugins: swiftLintPlugin,
         ),

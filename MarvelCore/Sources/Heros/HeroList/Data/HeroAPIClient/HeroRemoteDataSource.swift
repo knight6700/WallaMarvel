@@ -32,7 +32,13 @@ extension HeroRemoteDataSource: TestDependencyKey {
             }
         )
     }
-    
+    static var failValue: Self {
+        HeroRemoteDataSource(
+            fetchHereos: { _ in
+                throw APIError.badRequest
+            }
+        )
+    }
     static var previewValue: Self {
         HeroRemoteDataSource(
             fetchHereos: { _ in

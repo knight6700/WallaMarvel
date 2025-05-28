@@ -63,7 +63,7 @@ import HorizonNetwork
                     .send(.delegate(.showLoader(false)))
                 )
             case .failure(let failure):
-                return .send(.delegate(.showErorMessage(failure.errorDescription)))
+                return .send(.delegate(.showErorMessage(failure.errorDescription ?? "Something went to wrong")))
             }
         case .delegate:
             return .none
