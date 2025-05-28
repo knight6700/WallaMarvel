@@ -9,27 +9,19 @@ public struct ResourceGridRowFeature {
         public var id: Int {
             resource.id
         }
-        var showSafari: Bool = false
         let resource: ResourceItem
     }
     
     public enum Action: Equatable, BindableAction {
         case binding(BindingAction<State>)
-        case rowDidTapped
+        case rowDidTapped(URL?)
     }
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-            ._printChanges()
         Reduce<State, Action> { state, action in
-            switch action {
-            case .rowDidTapped:
-                state.showSafari = true
-                return .none
-            case .binding:
-                return .none
-            }
-        }    
+            return .none
+        }
     }
 }
 
@@ -43,34 +35,28 @@ struct ResourceGridRowView: View {
                 size: CGSize(width: 100, height: 200),
                 placeholder: .placeholder
             )
+            .fixedSize(horizontal: false, vertical: true)
             VStack(alignment: .leading, spacing: 8) {
                 Text(store.resource.name)
                     .font(.headline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.leading)
                     .minimumScaleFactor(0.50)
-                if let description = store.resource.description, !description.isEmpty {
-                    Text(description)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .lineLimit(2)
-                }
+                Text(store.resource.description ?? "")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
             }
             .padding(.horizontal)
         }
         .onTapGesture {
-            store.send(.rowDidTapped)
+            store.send(.rowDidTapped(store.resource.resourceURL))
         }
         .padding(.bottom, 8)
         .background(Color(.systemBackground))
         .clipped()
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-        .sheet(isPresented: $store.showSafari) {
-            if let url = store.resource.resourceURL {
-                SafariView(url: url)
-            }
-        }
     }
 }
 

@@ -13,7 +13,7 @@ extension HeroDetailsMapper: DependencyKey {
                     ResourceItem(
                         id: $0.id,
                         imageURL: ThumbnailURLBuilder(thumbnail: $0.thumbnail).build(),
-                        resourceURL: URL(string: $0.resourceURI ?? ""),
+                        resourceURL: URL(string: $0.urls?.compactMap {$0.url}.first ?? ""),
                         name: $0.title,
                         description: $0.description,
                         price:
