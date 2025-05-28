@@ -17,10 +17,7 @@
    - [Hero Details](#2-hero-details)
 5. [Setup & Installation](#setup--installation)
 6. [Architecture Overview](#architecture-overview)  
-   - [Data Layer](#data-layer)  
-   - [Domain Layer](#domain-layer)  
-   - [Presentation Layer](#presentation-layer)
-7. [Graphs](#dependency-injection-graph)
+7. [TCA Digram](#tca-digram)
 8. [Key Improvements](#key-improvements)
 9. [Dependencies](#dependencies)
 10. [API Integration](#api-integration)  
@@ -45,9 +42,9 @@
 
 ## **App Screenshots**
 
-| **Heroes List**                                                                                  | **Hereos Details**                                                                                                                                                              
-|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------
-| <img src="https://github.com/user-attachments/assets/05d46ce5-0bed-41d9-a246-d383946bf28c" alt="hero List" width="300" height="500">               | <img src="https://github.com/user-attachments/assets/fbc97442-8259-4fd0-a7d2-e0c6094709c7" alt="Filter Options" width="300" height="500">      
+| **Heroes List**  | **Hereos Details**                                                                                                                                                              
+|-------------------------------------------------------------|----------------------------------------------------------------------------------------------------
+| <img src="https://github.com/user-attachments/assets/05d46ce5-0bed-41d9-a246-d383946bf28c" alt="hero List" width="400" height="500"> | <img src="https://github.com/user-attachments/assets/30b809a7-6908-40e0-b6b9-27a36c918520" alt="hero List" width="400" height="500">  
 | Displays a list of all characters, including their name, species, and status.                       | Shows detailed information about a selected Hero.         | 
 
 ---
@@ -141,24 +138,9 @@ Built using TCA's modular architecture to manage state, actions, effects, and re
 
 ---
 
-## **Dependency Rules Graph**
-
-```plaintext
-Presentation Layer
-   └── CharactersViewModel
-          ↓
-Domain Layer
-   └── CharactersUseCase
-          ↑
-Data Layer
-   ├── CharactersRepository
-          ↓
-   └── CharactersDataSource
-```
-
-
-## **State Management Protocols Usage**
-<img src="Images/state-management-protocols-diagram.svg" alt="Characters List" height="350"> 
+## **TCA Digram**
+![1_Ob3Ulthtg-C6D-mvGvNfkA](https://github.com/user-attachments/assets/1c7624a8-edfd-42ba-a69f-8db178b815ea)
+[for more details](https://github.com/pointfreeco/swift-composable-architecture)
 
 ## **Key Improvements**
 1. **Grid View or CollectionVieew**: Create a `Grid View` or `CollectionView` to efficiently display resources (e.g., comics).
