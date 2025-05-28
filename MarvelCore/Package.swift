@@ -110,7 +110,7 @@ let package = Package(
                 TCADependency,
                 NETWORK,
             ],
-//            plugins: swiftLintPlugin,
+            plugins: swiftLintPlugin,
         ),
     ],
     swiftLanguageModes: [.version("6.0")]
