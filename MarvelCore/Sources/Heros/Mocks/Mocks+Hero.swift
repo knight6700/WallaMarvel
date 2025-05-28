@@ -26,7 +26,7 @@ extension Array where Element == Hero {
             ),
             Hero(
                 id: "2",
-                hereoId: 3,
+                hereoId: 2,
                 imageURL: nil,
                 name: "Captain America",
                 shortDescription: "The first Avenger."
@@ -65,7 +65,7 @@ extension IdentifiedArray where Element == HeroListRowFeature.State {
             HeroListRowFeature.State(
                 hero: Hero(
                     id: "3",
-                    hereoId: 4,
+                    hereoId: 3,
                     imageURL: nil,
                     name: "Thor",
                     shortDescription: "God of Thunder."

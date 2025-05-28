@@ -23,6 +23,19 @@ extension HeroMapper: DependencyKey {
         )
     }
 }
+extension HeroMapper: TestDependencyKey {
+    static var testValue: Self {
+        HeroMapper(
+            toDomain: { dto in
+                    .mock
+            }
+        )
+    }
+    
+    static var previewValue: Self {
+        .testValue
+    }
+}
 
 extension DependencyValues {
     var heroMapper: HeroMapper {

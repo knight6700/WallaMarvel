@@ -26,7 +26,11 @@ extension HeroRemoteDataSource: DependencyKey {
 
 extension HeroRemoteDataSource: TestDependencyKey {
     static var testValue: Self {
-        previewValue
+        HeroRemoteDataSource(
+            fetchHereos: { _ in
+                Response<HeroesDTO>(code: 200, status: "Success", copyright: "", attributionText: "", attributionHTML: "", etag: "", data: .mock)
+            }
+        )
     }
     
     static var previewValue: Self {

@@ -46,7 +46,7 @@ public struct HeroDetailsRepositryFeature {
             case .success(let model):
                 return .send(.delegate(.model(model)))
             case .failure(let failure):
-                return .send(.delegate(.showErorMessage(failure.errorDescription)))
+                return .send(.delegate(.showErorMessage(failure.errorDescription ?? "Something went to wrong")))
             }
         case .delegate:
             return .none

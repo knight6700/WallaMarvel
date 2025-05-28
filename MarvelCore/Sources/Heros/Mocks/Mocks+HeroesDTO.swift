@@ -6,28 +6,57 @@ extension HeroesDTO {
         .init(
             offset: 0,
             limit: 20,
-            total: 1,
-            count: 1,
-            results: [.mock]
+            total: 3,
+            count: 3,
+            results: .mock
         )
     }
 }
 
-extension HeroResult {
-    static var mock: HeroResult {
-        .init(
-            id: 1009610,
-            name: "Spider-Man",
-            description: "Bitten by a radioactive spider, Peter Parker uses his powers to help others.",
-            modified: Date(),
-            thumbnail: .mock,
-            resourceURI: "http://gateway.marvel.com/v1/public/characters/1009610",
-            comics: .mock,
-            series: .mock,
-            stories: .mock,
-            events: .mock,
-            urls: [.mockDetail, .mockWiki, .mockComicLink]
-        )
+extension Array where Element == HeroResult {
+    static var mock: [HeroResult] {
+        [
+            HeroResult(
+                id: 1,
+                name: "Iron Man",
+                description: "Genius billionaire playboy philanthropist.",
+                modified: Date(),
+                thumbnail: .mock,
+                resourceURI: nil,
+                comics: .mock,
+                series: .mock,
+                stories: .mock,
+                events: .mock,
+                urls: [.mockDetail, .mockWiki, .mockComicLink]
+            ),
+            HeroResult(
+                id: 2,
+                name: "Captain America",
+                description: "The first Avenger.",
+                modified: Date(),
+                thumbnail: .mock,
+                resourceURI: nil,
+                comics: .mock,
+                series: .mock,
+                stories: .mock,
+                events: .mock,
+                urls: [.mockDetail, .mockWiki, .mockComicLink]
+            ),
+            HeroResult(
+                id: 3,
+                name: "Thor",
+                description: "God of Thunder.",
+                modified: Date(),
+                thumbnail: .mock,
+                resourceURI: nil,
+                comics: .mock,
+                series: .mock,
+                stories: .mock,
+                events: .mock,
+                urls: [.mockDetail, .mockWiki, .mockComicLink]
+            )
+
+        ]
     }
 }
 

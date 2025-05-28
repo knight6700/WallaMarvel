@@ -67,7 +67,7 @@ struct HeroDetailsView: View {
                             sectionType: .stories,
                             resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
                             heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                            hereId: 2
+                            hereId: 3
                         )
                     ]
                 ),

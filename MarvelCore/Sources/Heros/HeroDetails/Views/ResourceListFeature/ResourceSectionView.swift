@@ -70,7 +70,6 @@ public struct ResourceSectionFeature {
                 switch viewSate {
                 case let .showLoder(isLoading):
                     state.isLoading = isLoading
-                    state.errorMessage = nil
                 case let .showErorMessage(errorMessage):
                     state.isLoading = false
                     state.errorMessage = errorMessage

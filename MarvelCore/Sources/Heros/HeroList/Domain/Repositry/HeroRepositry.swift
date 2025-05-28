@@ -8,11 +8,17 @@ import HorizonNetwork
     public struct State: Equatable {
         var offset: Int = -1
         var total: Int = 0
+        
+        public init(offset: Int = -1, total: Int = 0) {
+            self.offset = offset
+            self.total = total
+        }
     }
     
     @Dependency(\.heroRemoteDataSource) var remote
     @Dependency(\.heroMapper) var mapper
-     
+     public init() {
+     }
      public enum Delegate: Equatable {
          case model([Hero])
          case showLoader(Bool)
@@ -21,7 +27,7 @@ import HorizonNetwork
      
      public enum Action: Equatable {
          case fetchHeroes(name: String?, isRefeshabale: Bool)
-         case response(Result<[Hero], APIError>)
+         case response(Result<[Hero], APIError>, Int)
          case delegate(Delegate)
      }
     
@@ -40,17 +46,18 @@ import HorizonNetwork
                     let params = HeroesParams(name: name, offset: offset)
                     let response = try await remote.fetchHereos(params)
                     let domainModel = mapper.toDomain(response.data.results)
-                    await send(.response(.success(domainModel)))
+                    await send(.response(.success(domainModel), response.data.total))
                 } catch {
                     guard let error = error as? APIError else {
                         return
                     }
-                    await send(.response(.failure(error)))
+                    await send(.response(.failure(error), 0))
                 }
             }
-        case let .response(result):
+        case let .response(result, totalPages):
             switch result {
             case .success(let heroes):
+                state.total = totalPages
                 return .concatenate(
                     .send(.delegate(.model(heroes))),
                     .send(.delegate(.showLoader(false)))
