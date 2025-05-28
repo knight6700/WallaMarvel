@@ -71,26 +71,26 @@ struct HeroDetailsView: View {
                         ResourceSectionFeature.State(
                             sectionType: .comics,
                             resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
-                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                            heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
                             hereId: 1
                         ),
                         ResourceSectionFeature.State(
                             sectionType: .series,
                             resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
-                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                            heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
                             hereId: 2
                         ),
                         ResourceSectionFeature.State(
                             sectionType: .stories,
                             resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
-                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                            heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
                             hereId: 3
                         )
                     ]
                 ),
                 hero: Hero(
                     id: "0",
-                    hereoId: 0,
+                    heroId: 0,
                     imageURL: nil,
                     name: "Fares",
                     shortDescription: "Fares Junior"

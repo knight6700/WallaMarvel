@@ -6,8 +6,8 @@ import ComposableArchitecture
 public struct HeroListFeature {
     @ObservableState
     public struct State: Equatable {
-        var hero: IdentifiedArrayOf<HeroListRowFeature.State> = []
-        var repositryState: HeroRepositryFeature.State
+        var heroes: IdentifiedArrayOf<HeroListRowFeature.State> = []
+        var repositoryState: HeroRepositoryFeature.State
         var searchText: String = ""
         var suggestNames: IdentifiedArrayOf<SearchSuggestions> = []
         var filteredSuggestions: [SearchSuggestions] {
@@ -19,13 +19,18 @@ public struct HeroListFeature {
         var name: String? {
             searchText.isEmpty ? nil : searchText
         }
+        var showUnAvailableContent: Bool {
+            heroes.isEmpty &&
+            !searchText.isEmpty &&
+            !isLoading
+        }
 
         public init(
-            hero: IdentifiedArrayOf<HeroListRowFeature.State>,
-            repositryState: HeroRepositryFeature.State
+            heroes: IdentifiedArrayOf<HeroListRowFeature.State>,
+            repositoryState: HeroRepositoryFeature.State
         ) {
-            self.hero = hero
-            self.repositryState = repositryState
+            self.heroes = heroes
+            self.repositoryState = repositoryState
         }
         var isLoading = false
         var errorMessage: String? = nil
@@ -34,7 +39,7 @@ public struct HeroListFeature {
     public init () {}
     public enum ViewState: Equatable {
         case showLoader(Bool)
-        case showErorMessage(String?)
+        case showErrorMessage(String?)
     }
     
     public enum Delegate: Equatable {
@@ -42,9 +47,9 @@ public struct HeroListFeature {
     }
     
     public enum Action: Equatable, BindableAction {
-        case hero(IdentifiedActionOf<HeroListRowFeature>)
-        case fetch(isRefeshabale: Bool)
-        case repositry(HeroRepositryFeature.Action)
+        case heroes(IdentifiedActionOf<HeroListRowFeature>)
+        case fetch(isRefreshable: Bool)
+        case repository(HeroRepositoryFeature.Action)
         case binding(BindingAction<State>)
         case reload
         case delegate(Delegate)
@@ -57,61 +62,59 @@ public struct HeroListFeature {
         Reduce<State, Action> { state, action in
             switch action {
             case .reload:
-                state.hero.removeAll()
+                state.heroes.removeAll()
                 return .concatenate(
                     .send(.viewState(.showLoader(true))),
-                    .send(.fetch(isRefeshabale: true))
+                    .send(.fetch(isRefreshable: true))
                 )
-            case let .hero(.element(id, action: action)):
+            case let .heroes(.element(id, action: action)):
                 switch action {
                 case .rowOnAppear:
-                    guard state.hero.count > 5,
-                          id == state.hero[state.hero.count - 5].id,
-                          state.repositryState.total > state.hero.count - 1
+                    guard state.shouldLoadMoreHeroes(for: id)
                     else {
                         return .none
                     }
-                    preFetch.preFetch(state.hero.map { $0.hero.imageURL} )
-                    return .send(.fetch(isRefeshabale: false))
+                    preFetch.preFetch(state.heroes.map { $0.hero.imageURL} )
+                    return .send(.fetch(isRefreshable: false))
                 case .rowTapped:
-                    guard let hero = state.hero[id: id]?.hero else {
+                    guard let hero = state.heroes[id: id]?.hero else {
                         return .none
                     }
                     return .send(.delegate(.navigateToHeroDetails(hero)))
                 }
-            case let .fetch(isRefeshabale):
-                return .send(.repositry(.fetchHeroes(name: state.name, isRefeshabale: isRefeshabale)))
-            case let .repositry(.delegate(delegateAction)):
+            case let .fetch(isRefreshable):
+                return .send(.repository(.fetchHeroes(name: state.name, isRefreshable: isRefreshable)))
+            case let .repository(.delegate(delegateAction)):
                 switch delegateAction {
                 case let .model(heroes):
                     let heroes = IdentifiedArray(uniqueElements: heroes.map { HeroListRowFeature.State(hero: $0) })
-                    state.hero.append(contentsOf: heroes)
+                    state.heroes.append(contentsOf: heroes)
                     state.suggestNames.append(
                         contentsOf: IdentifiedArray(
                             uniqueElements: heroes.map { hero in
-                                SearchSuggestions(id: hero.hero.hereoId, name: hero.hero.name)
+                                SearchSuggestions(id: hero.hero.heroId, name: hero.hero.name)
                             }
                         )
                     )
                     return .none
                 case let .showLoader(isLoading):
                     return .send(.viewState(.showLoader(isLoading)))
-                case let .showErorMessage(errorMessage):
-                    return .send(.viewState(.showErorMessage(errorMessage)))
+                case let .showErrorMessage(errorMessage):
+                    return .send(.viewState(.showErrorMessage(errorMessage)))
                 }
-            case .repositry, .binding, .delegate:
+            case .repository, .binding, .delegate:
                 return .none
             case .task:
-                guard state.hero.isEmpty else {
+                guard state.heroes.isEmpty else {
                     return .none
                 }
-                return .send(.repositry(.fetchHeroes(name: state.name, isRefeshabale: true)))
+                return .send(.repository(.fetchHeroes(name: state.name, isRefreshable: true)))
             case let .viewState(viewState):
                 switch viewState {
                 case .showLoader(let bool):
                     state.isLoading = bool
                     state.errorMessage = nil
-                case let .showErorMessage(errorDescription):
+                case let .showErrorMessage(errorDescription):
                     state.isLoading = false
                     state.errorMessage = errorDescription
                 }
@@ -119,21 +122,31 @@ public struct HeroListFeature {
             }
         }
         .forEach(
-            \.hero,
-             action: \.hero
+            \.heroes,
+             action: \.heroes
         ) {
             HeroListRowFeature()
         }
         Scope(
-            state: \.repositryState,
-            action: \.repositry
+            state: \.repositoryState,
+            action: \.repository
         ) {
-            HeroRepositryFeature()
+            HeroRepositoryFeature()
         }
     }
 }
-
-public struct HeroLisView: View {
+extension HeroListFeature.State {
+    func shouldLoadMoreHeroes(for id: Hero.ID) -> Bool {
+        guard heroes.count > 5,
+              id == heroes[heroes.count - 5].id,
+              repositoryState.total > heroes.count - 1
+        else {
+            return false
+        }
+        return true
+    }
+}
+public struct HeroListView: View {
     @Bindable var store: StoreOf<HeroListFeature>
     @FocusState private var isFocused: Bool
     public init(store: StoreOf<HeroListFeature>) {
@@ -144,8 +157,8 @@ public struct HeroLisView: View {
         List {
             ForEach(
                 store.scope(
-                    state: \.hero,
-                    action: \.hero
+                    state: \.heroes,
+                    action: \.heroes
                 )
             ) { childStore in
                 HeroListRowView(store: childStore)
@@ -156,7 +169,7 @@ public struct HeroLisView: View {
             error: $store.errorMessage,
             action: {
                 // Handle Retry
-                store.send(.fetch(isRefeshabale: false))
+                store.send(.fetch(isRefreshable: false))
             }
         )
         .searchable(text: $store.searchText)
@@ -189,7 +202,7 @@ public struct HeroLisView: View {
             }
         )
         .overlay {
-            if store.hero.isEmpty, !store.searchText.isEmpty {
+            if store.showUnAvailableContent {
                 ContentUnavailableView {
                     Label("No Heroes for \"\(store.searchText)\"", systemImage: "magnifyingglass")
                 } description: {
@@ -203,11 +216,11 @@ public struct HeroLisView: View {
 #if DEBUG
 #Preview {
     NavigationStack {
-        HeroLisView(
+        HeroListView(
             store: Store(
                 initialState: HeroListFeature.State(
-                    hero: .mock,
-                    repositryState: HeroRepositryFeature.State()
+                    heroes: .mock,
+                    repositoryState: HeroRepositoryFeature.State()
                 ),
                 reducer: { HeroListFeature()
                 }

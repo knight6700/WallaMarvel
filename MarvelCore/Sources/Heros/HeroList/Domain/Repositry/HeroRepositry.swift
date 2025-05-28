@@ -3,7 +3,7 @@ import ComposableArchitecture
 import HorizonNetwork
 
 @Reducer
- public struct HeroRepositryFeature {
+ public struct HeroRepositoryFeature {
     @ObservableState
     public struct State: Equatable {
         var offset: Int = -1
@@ -22,11 +22,11 @@ import HorizonNetwork
      public enum Delegate: Equatable {
          case model([Hero])
          case showLoader(Bool)
-         case showErorMessage(String?)
+         case showErrorMessage(String?)
      }
      
      public enum Action: Equatable {
-         case fetchHeroes(name: String?, isRefeshabale: Bool)
+         case fetchHeroes(name: String?, isRefreshable: Bool)
          case response(Result<[Hero], APIError>, Int)
          case delegate(Delegate)
      }
@@ -36,15 +36,15 @@ import HorizonNetwork
         action: Action
     ) -> Effect<Action> {
         switch action {
-        case let .fetchHeroes(name, isRefeshabale):
-            state.offset = isRefeshabale ? 0 : state.offset + 1
+        case let .fetchHeroes(name, isRefreshable):
+            state.offset = isRefreshable ? 0 : state.offset + 1
             return .run { [offset = state.offset,
                            remote = remote,
                            mapper = mapper] send in
                 do {
-                    await send(.delegate(.showLoader(isRefeshabale)))
+                    await send(.delegate(.showLoader(isRefreshable)))
                     let params = HeroesParams(name: name, offset: offset)
-                    let response = try await remote.fetchHereos(params)
+                    let response = try await remote.fetchHeroes(params)
                     let domainModel = mapper.toDomain(response.data.results)
                     await send(.response(.success(domainModel), response.data.total))
                 } catch {
@@ -63,7 +63,7 @@ import HorizonNetwork
                     .send(.delegate(.showLoader(false)))
                 )
             case .failure(let failure):
-                return .send(.delegate(.showErorMessage(failure.errorDescription ?? "Something went to wrong")))
+                return .send(.delegate(.showErrorMessage(failure.errorDescription ?? "Something went to wrong")))
             }
         case .delegate:
             return .none
