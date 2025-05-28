@@ -2,7 +2,7 @@ import UIKit
 import netfox
 import SwiftUI
 import ComposableArchitecture
-import Heros
+import Heroes
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

@@ -19,8 +19,8 @@ private let packageDependancies: [Package.Dependency] = [
 
 private let products: [Product] = [
     .library(
-        name: "Heros",
-        targets: ["Heros"]
+        name: "Heroes",
+        targets: ["Heroes"]
     ),
     .library(
         name: "HorizonComponent",
@@ -42,7 +42,7 @@ private let kingFisher: Target.Dependency = .product(
     name: "Kingfisher",
     package: "Kingfisher"
 )
-private let TCADependancy: Target.Dependency = .product(
+private let TCADependency: Target.Dependency = .product(
     name: "ComposableArchitecture",
     package: "swift-composable-architecture"
 )
@@ -59,9 +59,9 @@ let package = Package(
     dependencies: packageDependancies,
     targets: [
         .target(
-            name: "Heros",
+            name: "Heroes",
             dependencies: [
-                TCADependancy,
+                TCADependency,
                 horizonComponent,
                 NETWORK,
             ],
@@ -93,8 +93,9 @@ let package = Package(
         .testTarget(
             name: "MarvelSnapshotTests",
             dependencies: [
-                "Heros",
+                "Heroes",
                 horizonComponent,
+                TCADependency,
                 .product(
                     name: "SnapshotTesting",
                     package: "swift-snapshot-testing"
@@ -105,8 +106,8 @@ let package = Package(
         .testTarget(
             name: "MarvelCoreTests",
             dependencies: [
-                "Heros",
-                TCADependancy,
+                "Heroes",
+                TCADependency,
                 NETWORK,
             ],
 //            plugins: swiftLintPlugin,
