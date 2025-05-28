@@ -13,7 +13,7 @@ extension HeroMapper: DependencyKey {
                 dto.map {
                     Hero(
                         id: UUID().uuidString,
-                        hereoId: $0.id,
+                        heroId: $0.id,
                         imageURL: ThumbnailURLBuilder(thumbnail: $0.thumbnail).build(),
                         name: $0.name,
                         shortDescription: $0.description

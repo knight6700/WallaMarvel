@@ -84,7 +84,7 @@ struct URLElement: Codable {
 }
 
 enum URLType: String, Codable {
-    case comiclink = "comiclink"
+    case comicLink = "comiclink"
     case detail = "detail"
     case wiki = "wiki"
     case unknown

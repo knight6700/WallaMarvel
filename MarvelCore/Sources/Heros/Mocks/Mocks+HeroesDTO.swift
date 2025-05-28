@@ -106,7 +106,7 @@ extension URLElement {
     }
 
     static var mockComicLink: URLElement {
-        .init(type: .comiclink, url: "http://marvel.com/comics/characters/1009610/spider-man?utm_campaign=apiRef&utm_source=xyz")
+        .init(type: .comicLink, url: "http://marvel.com/comics/characters/1009610/spider-man?utm_campaign=apiRef&utm_source=xyz")
     }
 }
 #endif

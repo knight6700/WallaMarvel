@@ -70,20 +70,20 @@ extension HeroCoordinatorFeature.State {
                     ResourceSectionFeature.State(
                         sectionType: .comics,
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                        hereId: hero.hereoId
+                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        hereId: hero.heroId
                     ),
                     ResourceSectionFeature.State(
                         sectionType: .series,
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                        hereId: hero.hereoId
+                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        hereId: hero.heroId
                     ),
                     ResourceSectionFeature.State(
                         sectionType: .stories,
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                        hereId: hero.hereoId
+                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        hereId: hero.heroId
                     )
                 ]
             ),
@@ -103,7 +103,7 @@ public struct HeroCoordinatorFeatureRouterView: View {
                 action: \.path
             )
         ) {
-            HeroLisView(
+            HeroListView(
                 store: store.scope(
                     state: \.root,
                     action: \.root

@@ -63,7 +63,7 @@ struct ResourceGridRowsView: View {
 #Preview {
     ScrollView {
         VStack {
-            Text("wswsws")
+            Text("Comics")
             ResourceGridRowsView(
                 store: Store(
                     initialState: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),

@@ -45,14 +45,14 @@
 | **Heroes List**  | **Hereos Details**                                                                                                                                                              
 |-------------------------------------------------------------|----------------------------------------------------------------------------------------------------
 | <img src="https://github.com/user-attachments/assets/05d46ce5-0bed-41d9-a246-d383946bf28c" alt="hero List" width="400" height="500"> | <img src="https://github.com/user-attachments/assets/30b809a7-6908-40e0-b6b9-27a36c918520" alt="hero List" width="400" height="500">  
-| Displays a list of all characters, including their name, species, and status.                       | Shows detailed information about a selected Hero.         | 
+| Displays a list of all heroes, including their name, species, and status.                       | Shows detailed information about a selected Hero.         | 
 
 ---
 
 ## **How It Works**
 
 ### **1. Main View**
-The main screen is a table view displaying all characters fetched from the API.
+The main screen is a table view displaying all heroes fetched from the API.
 
 - Each row displays:
   - hero's name.
@@ -114,7 +114,7 @@ Encapsulates business logic and defines contracts between the data and presentat
 
 * **Models**:
 
-  * `Hero`: Core domain model representing a character.
+  * `Hero`: Core domain model representing a hero.
   * `SearchSuggestions`: Holds logic for filtering/searching heroes.
   * `ThumbnailURLBuilder`: Helps build image URLs.
 * **Repository**:
@@ -180,7 +180,7 @@ The app fetches data from the **Rick and Morty API**.
 
 ---
 ## **Issues**
-API: The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
+- [API](https://github.com/knight6700/WallaMarvel/issues/6): The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
 ---
 
 ## **Contributing**

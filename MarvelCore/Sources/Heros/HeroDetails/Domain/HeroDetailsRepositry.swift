@@ -3,7 +3,7 @@ import ComposableArchitecture
 import HorizonNetwork
 
 @Reducer
-public struct HeroDetailsRepositryFeature {
+public struct HeroDetailsRepositoryFeature {
     @ObservableState
     public struct State: Equatable {}
 
@@ -13,7 +13,7 @@ public struct HeroDetailsRepositryFeature {
     public enum Delegate: Equatable {
         case model([ResourceItem])
         case showLoader(Bool)
-        case showErorMessage(String?)
+        case showErrorMessage(String?)
     }
 
     public enum Action: Equatable {
@@ -46,7 +46,7 @@ public struct HeroDetailsRepositryFeature {
             case .success(let model):
                 return .send(.delegate(.model(model)))
             case .failure(let failure):
-                return .send(.delegate(.showErorMessage(failure.errorDescription ?? "Something went to wrong")))
+                return .send(.delegate(.showErrorMessage(failure.errorDescription ?? "Something went to wrong")))
             }
         case .delegate:
             return .none
