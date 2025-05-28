@@ -11,7 +11,7 @@ struct HeroResult: Codable {
     let name, description: String
     let modified: Date
     let thumbnail: Thumbnail
-    let resourceURI: String
+    let resourceURI: String?
     let comics, series: Comics
     let stories: Stories
     let events: Comics

@@ -29,9 +29,7 @@ public struct ResourceGridRowFeature {
             case .binding:
                 return .none
             }
-        }
-        ._printChanges()
-    
+        }    
     }
 }
 

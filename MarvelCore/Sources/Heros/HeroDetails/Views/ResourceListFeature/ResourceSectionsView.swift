@@ -38,7 +38,7 @@ struct ResourceSectionsView: View {
     let store: StoreOf<ResourcesSectionsFeature>
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             ForEachStore(
                 store.scope(state: \.rows, action: \.rows)
             ) { rowStore in

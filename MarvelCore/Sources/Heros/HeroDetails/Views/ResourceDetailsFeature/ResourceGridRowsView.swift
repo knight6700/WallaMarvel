@@ -28,7 +28,6 @@ public struct ResourceGridRowsFeature {
         ) {
             ResourceGridRowFeature()
         }
-        ._printChanges()
     }
 }
 struct ResourceGridRowsView: View {
@@ -40,8 +39,7 @@ struct ResourceGridRowsView: View {
     var body: some View {
         GeometryReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                Grid(alignment: .center, horizontalSpacing: 8, verticalSpacing: 8) {
-                    GridRow {
+                HStack {
                         ForEach(
                             store.scope(
                                 state: \.resourceDetailsRows,
@@ -54,7 +52,6 @@ struct ResourceGridRowsView: View {
                                     height: proxy.size.height
                                 )
                         }
-                    }
                 }
             }
             .scrollContentBackground(.hidden)

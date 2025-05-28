@@ -104,8 +104,11 @@ let package = Package(
         ),
         .testTarget(
             name: "MarvelCoreTests",
-            dependencies: ["Heros"],
-            plugins: swiftLintPlugin,
+            dependencies: [
+                "Heros",
+                TCADependancy,
+            ],
+//            plugins: swiftLintPlugin,
         ),
     ],
     swiftLanguageModes: [.version("6.0")]

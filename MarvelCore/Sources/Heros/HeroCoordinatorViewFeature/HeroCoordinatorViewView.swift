@@ -49,36 +49,7 @@ public struct HeroCoordinatorFeature {
             case let .root(.delegate(action)):
                 switch action {
                 case let .navigateToHeroDetails(hero):
-                    // TODO: - Implement Factory here
-                    state.path.append(
-                        .heroDetails(
-                            HeroDetailsFeature.State(
-                                sections: ResourcesSectionsFeature.State(
-                                    rows: [
-                                        ResourceSectionFeature.State(
-                                            sectionType: .comics,
-                                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                                            hereId: hero.hereoId
-                                        ),
-                                        ResourceSectionFeature.State(
-                                            sectionType: .series,
-                                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                                            hereId: hero.hereoId
-                                        ),
-                                        ResourceSectionFeature.State(
-                                            sectionType: .stories,
-                                            resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                                            heroDetailsRepository: HeroDetailsRepositryFeature.State(),
-                                            hereId: hero.hereoId
-                                        )
-                                    ]
-                                ),
-                                hero: hero
-                            )
-                        )
-                    )
+                    state.path.append(.heroDetails(state.hereDetails(hero: hero)))
                     return .none
                 }
             case .root:
@@ -89,6 +60,35 @@ public struct HeroCoordinatorFeature {
         Scope(state: \.root, action: \.root) {
             HeroListFeature()
         }
+    }
+}
+extension HeroCoordinatorFeature.State {
+    func hereDetails(hero: Hero) -> HeroDetailsFeature.State {
+        HeroDetailsFeature.State(
+            sections: ResourcesSectionsFeature.State(
+                rows: [
+                    ResourceSectionFeature.State(
+                        sectionType: .comics,
+                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
+                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                        hereId: hero.hereoId
+                    ),
+                    ResourceSectionFeature.State(
+                        sectionType: .series,
+                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
+                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                        hereId: hero.hereoId
+                    ),
+                    ResourceSectionFeature.State(
+                        sectionType: .stories,
+                        resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
+                        heroDetailsRepository: HeroDetailsRepositryFeature.State(),
+                        hereId: hero.hereoId
+                    )
+                ]
+            ),
+            hero: hero
+        )
     }
 }
 public struct HeroCoordinatorFeatureRouterView: View {

@@ -1,16 +1,13 @@
 import SwiftUI
 import HorizonComponent
 import ComposableArchitecture
-struct SearchSuggestions: Identifiable, Equatable {
-    let id: Int
-    let name: String
-}
+
 @Reducer
 public struct HeroListFeature {
     @ObservableState
     public struct State: Equatable {
         var hero: IdentifiedArrayOf<HeroListRowFeature.State> = []
-        var repositryState: HeroRepositryFeature.State = .init()
+        var repositryState: HeroRepositryFeature.State
         var searchText: String = ""
         var suggestNames: IdentifiedArrayOf<SearchSuggestions> = []
         var filteredSuggestions: [SearchSuggestions] {
@@ -23,14 +20,18 @@ public struct HeroListFeature {
             searchText.isEmpty ? nil : searchText
         }
 
-        public init(hero: IdentifiedArrayOf<HeroListRowFeature.State>) {
+        public init(
+            hero: IdentifiedArrayOf<HeroListRowFeature.State>,
+            repositryState: HeroRepositryFeature.State
+        ) {
             self.hero = hero
+            self.repositryState = repositryState
         }
         var isLoading = false
         var errorMessage: String? = nil
     }
     @Dependency(\.heroPreFetch) var preFetch
-    
+    public init () {}
     public enum ViewState: Equatable {
         case showLoader(Bool)
         case showErorMessage(String?)
@@ -65,11 +66,12 @@ public struct HeroListFeature {
                 switch action {
                 case .rowOnAppear:
                     guard state.hero.count > 5,
-                          id == state.hero[state.hero.count - 5].id
+                          id == state.hero[state.hero.count - 5].id,
+                          state.repositryState.total > state.hero.count - 1
                     else {
-                        preFetch.preFetch(state.hero.map {$0.hero.imageURL})
                         return .none
                     }
+                    preFetch.preFetch(state.hero.map { $0.hero.imageURL} )
                     return .send(.fetch(isRefeshabale: false))
                 case .rowTapped:
                     guard let hero = state.hero[id: id]?.hero else {
@@ -186,6 +188,15 @@ public struct HeroLisView: View {
                 await store.send(.task, animation: .smooth).finish()
             }
         )
+        .overlay {
+            if store.hero.isEmpty, !store.searchText.isEmpty {
+                ContentUnavailableView {
+                    Label("No Heroes for \"\(store.searchText)\"", systemImage: "magnifyingglass")
+                } description: {
+                    Text("Try to search for another Hero.")
+                }
+            }
+        }
     }
 }
 
@@ -195,7 +206,8 @@ public struct HeroLisView: View {
         HeroLisView(
             store: Store(
                 initialState: HeroListFeature.State(
-                    hero: .mock
+                    hero: .mock,
+                    repositryState: HeroRepositryFeature.State()
                 ),
                 reducer: { HeroListFeature()
                 }
