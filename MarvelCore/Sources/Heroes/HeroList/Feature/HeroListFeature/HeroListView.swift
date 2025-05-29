@@ -165,6 +165,7 @@ public struct HeroListView: View {
                 HeroListRowView(store: childStore)
             }
         }
+        .accessibilityLabel("List of Marvel Heroes")
         .loadingErrorOverlay(
             isLoading: $store.isLoading,
             error: $store.errorMessage,
@@ -174,6 +175,7 @@ public struct HeroListView: View {
             }
         )
         .searchable(text: $store.searchText)
+        .accessibilityLabel("Search for Heroes")
         .searchSuggestions {
             ForEach(store.filteredSuggestions, id: \.id) { suggestion in
                 Button {
