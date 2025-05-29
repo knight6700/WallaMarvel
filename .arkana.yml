@@ -1,0 +1,16 @@
+
+import_name: 'HorizonKeys'
+namespace: 'HorizonKeys'
+flavors:
+  - FrostedFlakes
+  - FrootLoops
+swift_declaration_strategy: let
+should_generate_unit_tests: true
+package_manager: spm
+environments:
+  - Debug
+  - Release
+
+environment_secrets:
+  - privateKey
+  - publicKey

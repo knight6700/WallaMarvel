@@ -1,0 +1,23 @@
+# .github/workflows/pr-title-check.yml
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  check-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title format
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            const pattern = /^\[ENG-\d+\]/;
+
+            if (!pattern.test(prTitle)) {
+              core.setFailed(`❌ PR title "${prTitle}" is invalid. It must start with [ENG-<number>], e.g., [ENG-123]`);
+            } else {
+              console.log(`✅ PR title "${prTitle}" is valid.`);
+            }
