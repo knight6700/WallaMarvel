@@ -34,7 +34,6 @@ struct HeroCell: View {
     )
 }
 
-
 struct AngledBottomCorners: Shape {
     enum AngledCorner {
         case leading

@@ -6,20 +6,14 @@ public struct ResourcesSectionsFeature {
     @ObservableState
     public struct State: Equatable {
          var rows: IdentifiedArrayOf<ResourceSectionFeature.State>
-
-         init(
-            rows: IdentifiedArrayOf<ResourceSectionFeature.State>
-        ) {
-            self.rows = rows
-        }
     }
-    
+
     public enum Action: Equatable {
         case rows(IdentifiedActionOf<ResourceSectionFeature>)
     }
-    
+
     public var body: some ReducerOf<Self> {
-        Reduce<State, Action> { state, action in
+        Reduce<State, Action> { _, action in
             switch action {
             case .rows:
                 return .none
@@ -34,9 +28,9 @@ public struct ResourcesSectionsFeature {
     }
 }
 struct ResourceSectionsView: View {
-    
+
     let store: StoreOf<ResourcesSectionsFeature>
-    
+
     var body: some View {
         VStack {
             ForEachStore(
@@ -71,7 +65,7 @@ struct ResourceSectionsView: View {
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: .mock),
                         heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
                         hereId: 3
-                    ),
+                    )
                 ]
             ),
             reducer: { ResourcesSectionsFeature()

@@ -38,5 +38,4 @@ extension Array where Element == ResourceItem {
     }
 }
 
-
 #endif

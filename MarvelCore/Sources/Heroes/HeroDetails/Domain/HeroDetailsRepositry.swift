@@ -9,7 +9,7 @@ public struct HeroDetailsRepositoryFeature {
 
     @Dependency(\.heroDetailsRemoteDataSource) var remoteDataSource
     @Dependency(\.heroDetailsMapper) var heroDetailsMapper
-    
+
     public enum Delegate: Equatable {
         case model([ResourceItem])
         case showLoader(Bool)
@@ -28,8 +28,8 @@ public struct HeroDetailsRepositoryFeature {
     ) -> Effect<Action> {
         switch action {
         case let .fetch(heroId, sectionType):
-            return .run { [ remoteDataSource = self.remoteDataSource , mapper = self.heroDetailsMapper ] send in
-                do  {
+            return .run { [ remoteDataSource = self.remoteDataSource, mapper = self.heroDetailsMapper ] send in
+                do {
                     await send(.delegate(.showLoader(true)))
                     let response = try await remoteDataSource.fetchHeroDetails(heroId, sectionType)
                     let mapper = mapper.toDomain(response.data.results)

@@ -7,14 +7,14 @@ public struct ResourceGridRowsFeature {
     public struct State: Equatable {
         var resourceDetailsRows: IdentifiedArrayOf<ResourceGridRowFeature.State>
     }
-    
+
     public enum Action: Equatable {
         case resourceDetailsRows(IdentifiedActionOf<ResourceGridRowFeature>)
         case task
     }
-    
+
     public var body: some ReducerOf<Self> {
-        Reduce<State, Action> { state, action in
+        Reduce<State, Action> { _, action in
             switch action {
             case .task:
                 return .none

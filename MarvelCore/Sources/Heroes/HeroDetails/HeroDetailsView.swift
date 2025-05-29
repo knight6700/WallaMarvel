@@ -15,7 +15,7 @@ public struct HeroDetailsFeature {
         case binding(BindingAction<State>)
         case sections(ResourcesSectionsFeature.Action)
     }
-    
+
     public var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce<State, Action> { state, action in
@@ -40,7 +40,7 @@ public struct HeroDetailsFeature {
 
 struct HeroDetailsView: View {
     @Bindable var store: StoreOf<HeroDetailsFeature>
-    
+
     var body: some View {
         GeometryReader { geo in
             ScrollView {

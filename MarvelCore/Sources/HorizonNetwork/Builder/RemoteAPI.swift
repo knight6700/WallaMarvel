@@ -4,7 +4,7 @@ public protocol RemoteAPI: APIErrorHandler {
     static func request<T: Codable>(_ service: RemoteService) async throws -> Response<T>
 }
 
-public struct NetworkApi: RemoteAPI {    
+public struct NetworkApi: RemoteAPI {
     public static func request<T: Decodable>(_ service: RemoteService) async throws -> Response<T> {
         do {
             let urlRequest = try service.asURLRequest()

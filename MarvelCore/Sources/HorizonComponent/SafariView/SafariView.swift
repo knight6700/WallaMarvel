@@ -18,5 +18,7 @@ public struct SafariView: UIViewControllerRepresentable {
 #Preview {
     if let url = URL(string: "https://www.marvel.com/characters") {
         SafariView(url: url)
+    } else {
+        EmptyView()
     }
 }

@@ -19,7 +19,7 @@ public extension RemoteService {
 
         let combinedPath = basePath
             .appendingPathComponent(requestConfiguration.path)
-        
+
         components.path = combinedPath
 
         guard let url = components.url else {
@@ -38,7 +38,7 @@ public extension RemoteService {
                 request.setValue(header.value, forHTTPHeaderField: header.name)
             }
         }
-        
+
         if let parameters = requestConfiguration.parameters {
             try requestConfiguration.encoding?.encode(
                 urlRequest: &request,

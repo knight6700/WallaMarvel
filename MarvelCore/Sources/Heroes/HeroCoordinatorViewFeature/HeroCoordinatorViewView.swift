@@ -7,7 +7,7 @@ public struct HeroCoordinatorFeature {
     @Reducer
     public enum Path {
         case heroDetails(HeroDetailsFeature)
-        
+
         var id: StackElementID {
             switch self {
             case .heroDetails:
@@ -34,7 +34,7 @@ public struct HeroCoordinatorFeature {
         case popToRoot
         case root(HeroListFeature.Action)
     }
-    
+
     public var body: some ReducerOf<Self> {
         Reduce {
             state,

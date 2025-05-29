@@ -11,22 +11,22 @@ public struct ResourceGridRowFeature {
         }
         let resource: ResourceItem
     }
-    
+
     public enum Action: Equatable, BindableAction {
         case binding(BindingAction<State>)
         case rowDidTapped(URL?)
     }
-    
+
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce<State, Action> { state, action in
+        Reduce<State, Action> { _, _ in
             return .none
         }
     }
 }
 
 struct ResourceGridRowView: View {
-    
+
     @Bindable var store: StoreOf<ResourceGridRowFeature>
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {

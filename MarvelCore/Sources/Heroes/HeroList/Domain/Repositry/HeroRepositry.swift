@@ -8,13 +8,13 @@ import HorizonNetwork
     public struct State: Equatable {
         var offset: Int = -1
         var total: Int = 0
-        
+
         public init(offset: Int = -1, total: Int = 0) {
             self.offset = offset
             self.total = total
         }
     }
-    
+
     @Dependency(\.heroRemoteDataSource) var remote
     @Dependency(\.heroMapper) var mapper
      public init() {
@@ -24,7 +24,7 @@ import HorizonNetwork
          case showLoader(Bool)
          case showErrorMessage(String?)
      }
-     
+
      public enum Action: Equatable {
          case fetchHeroes(name: String?, isRefreshable: Bool)
          case response(Result<[Hero], APIError>, Int)
@@ -32,7 +32,7 @@ import HorizonNetwork
          case cancel
      }
      private enum CancelID { case fetchHeroes}
-    
+
      public func reduce(
         into state: inout State,
         action: Action

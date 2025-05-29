@@ -1,4 +1,3 @@
-
 import Foundation
 
 public enum ResourceSection: String, CaseIterable, Equatable, Hashable, Sendable {

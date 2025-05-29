@@ -19,12 +19,11 @@ extension HeroPreFetch: TestDependencyKey {
     static var testValue: Self {
         .liveValue
     }
-    
+
     static var previewValue: Self {
         .liveValue
     }
 }
-
 
 extension DependencyValues {
     var heroPreFetch: HeroPreFetch {

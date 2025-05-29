@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -13,7 +13,6 @@ private let packageDependancies: [Package.Dependency] = [
         from: "1.16.0"
     ),
     .package(url: "https://github.com/onevcat/Kingfisher", from: "8.1.1"),
-    .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
     .package(path: "../ArkanaKeys/HorizonKeys"),
 ]
 
@@ -30,10 +29,6 @@ private let products: [Product] = [
         name: "HorizonNetwork",
         targets: ["HorizonNetwork"]
     ),
-]
-
-private let swiftLintPlugin: [Target.PluginUsage]? = [
-    .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
 ]
 
 private let horizonComponent: Target.Dependency = "HorizonComponent"
@@ -54,7 +49,10 @@ private let keys: Target.Dependency = .product(
 
 let package = Package(
     name: "MarvelCore",
-    platforms: [.iOS(.v17)],
+    platforms: [
+        .iOS(.v17),
+        .macOS(.v12)
+    ],
     products: products,
     dependencies: packageDependancies,
     targets: [
@@ -68,16 +66,14 @@ let package = Package(
             resources: [],
             swiftSettings: [
                 .define("DEBUG", .when(configuration: .debug))
-            ],
-            plugins: swiftLintPlugin,
+            ]
         ),
         .target(
             name: "HorizonNetwork",
             dependencies: [
                 keys
             ],
-            resources: [],
-            plugins: swiftLintPlugin
+            resources: []
         ),
         .target(
             name: "HorizonComponent",
@@ -87,8 +83,7 @@ let package = Package(
             resources: [
                 .copy("Resources/Icons/Images.xcassets"),
                 .copy("Resources/Colors/Colors.xcassets"),
-            ],
-            plugins: swiftLintPlugin,
+            ]
         ),
         .testTarget(
             name: "MarvelSnapshotTests",
@@ -100,8 +95,7 @@ let package = Package(
                     name: "SnapshotTesting",
                     package: "swift-snapshot-testing"
                 ),
-            ],
-            plugins: swiftLintPlugin,
+            ]
         ),
         .testTarget(
             name: "MarvelCoreTests",
@@ -109,9 +103,8 @@ let package = Package(
                 "Heroes",
                 TCADependency,
                 NETWORK,
-            ],
-            plugins: swiftLintPlugin,
+            ]
         ),
     ],
-    swiftLanguageModes: [.version("6.0")]
+    swiftLanguageModes: [.v6]
 )
