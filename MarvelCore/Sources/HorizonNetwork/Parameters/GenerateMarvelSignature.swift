@@ -8,9 +8,9 @@ public struct GenerateMarvelSignature {
     let privateKey: String
     let timestamp: String
     
-    lazy var hash: String  = {
+     var hash: String {
         generator.generate(timestamp, privateKey, apiKey)
-    }()
+    }
     
     let generator: Generator
         

@@ -47,13 +47,12 @@ public extension RemoteService {
             )
         }
         
-        var generator = generateMarvelSignature
         try requestConfiguration.encoding?.encode(
             urlRequest: &request,
             parameters: MarvelAuthParameters(
                 apiKey: generateMarvelSignature.apiKey,
                 timestamp: generateMarvelSignature.timestamp,
-                hash: generator.hash
+                hash: generateMarvelSignature.hash
             ),
             encoder: requestConfiguration.encoder
         )
