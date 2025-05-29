@@ -9,6 +9,7 @@ public struct SafariView: UIViewControllerRepresentable {
     public func makeUIViewController(context: Context) -> SFSafariViewController {
         let safariVC = SFSafariViewController(url: url)
         safariVC.dismissButtonStyle = .done
+        safariVC.accessibilityLabel = "In-App-Browser"
         return safariVC
     }
 

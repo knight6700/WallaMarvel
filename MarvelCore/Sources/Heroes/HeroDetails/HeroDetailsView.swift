@@ -47,6 +47,7 @@ struct HeroDetailsView: View {
                 VStack(spacing: 20) {
                     if let hero = store.hero {
                         HeroHeaderView(hero: hero)
+                            .accessibilityLabel("Hero-Header")
                     }
                     ResourceSectionsView(store: store.scope(state: \.sections, action: \.sections))
                         .frame(height: geo.size.height + 200)

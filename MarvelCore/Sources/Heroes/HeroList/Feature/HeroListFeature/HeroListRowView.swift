@@ -32,6 +32,7 @@ struct HeroListRowView: View {
         HeroCell(hero: store.hero)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 4, leading: 8, bottom: 8, trailing: 4))
+            .accessibilityLabel("Marvel Character Spotlight: \(store.hero.name)")
             .onAppear {
                 store.send(.rowOnAppear)
             }

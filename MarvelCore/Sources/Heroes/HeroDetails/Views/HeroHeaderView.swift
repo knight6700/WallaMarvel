@@ -16,6 +16,7 @@ struct HeroHeaderView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundStyle(Color(.secondary))
+                    .accessibilityLabel("Hero: \(hero.name)")
             }
             .padding(.leading)
             .frame(maxWidth: .infinity)
