@@ -32,16 +32,15 @@ extension HeroDetailsMapper: DependencyKey {
 
 extension HeroDetailsMapper: TestDependencyKey {
     static var testValue: Self {
-        HeroDetailsMapper { toDomain in
+        HeroDetailsMapper { _ in
                 .mockResourceItems
         }
     }
-    
+
     static var previewValue: Self {
         .testValue
     }
 }
-
 
 extension DependencyValues {
     var heroDetailsMapper: HeroDetailsMapper {

@@ -2,7 +2,7 @@ import Dependencies
 import HorizonNetwork
 
 struct HeroDetailsRemoteDataSource {
-    let fetchHeroDetails: @Sendable (_ heroId: Int,_ type: ResourceSection) async throws -> Response<ResourcesDTO>
+    let fetchHeroDetails: @Sendable (_ heroId: Int, _ type: ResourceSection) async throws -> Response<ResourcesDTO>
 }
 
 extension HeroDetailsRemoteDataSource: DependencyKey {
@@ -37,12 +37,11 @@ extension HeroDetailsRemoteDataSource: TestDependencyKey {
                 )
         })
     }
-    
+
     static var previewValue: Self {
         .testValue
     }
 }
-
 
 extension DependencyValues {
     var heroDetailsRemoteDataSource: HeroDetailsRemoteDataSource {

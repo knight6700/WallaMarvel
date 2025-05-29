@@ -33,7 +33,7 @@ public struct HeroListFeature {
             self.repositoryState = repositoryState
         }
         var isLoading = false
-        var errorMessage: String? = nil
+        var errorMessage: String?
     }
     @Dependency(\.heroPreFetch) var preFetch
     public init () {}
@@ -41,11 +41,11 @@ public struct HeroListFeature {
         case showLoader(Bool)
         case showErrorMessage(String?)
     }
-    
+
     public enum Delegate: Equatable {
         case navigateToHeroDetails(Hero)
     }
-    
+
     public enum Action: Equatable, BindableAction {
         case heroes(IdentifiedActionOf<HeroListRowFeature>)
         case fetch(isRefreshable: Bool)
@@ -56,7 +56,7 @@ public struct HeroListFeature {
         case task
         case viewState(ViewState)
     }
-    
+
     public var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce<State, Action> { state, action in
@@ -75,7 +75,7 @@ public struct HeroListFeature {
                     else {
                         return .none
                     }
-                    preFetch.preFetch(state.heroes.map { $0.hero.imageURL} )
+                    preFetch.preFetch(state.heroes.map { $0.hero.imageURL})
                     return .send(.fetch(isRefreshable: false))
                 case .rowTapped:
                     guard let hero = state.heroes[id: id]?.hero else {
@@ -153,7 +153,7 @@ public struct HeroListView: View {
     public init(store: StoreOf<HeroListFeature>) {
         self.store = store
     }
-    
+
     public var body: some View {
         List {
             ForEach(

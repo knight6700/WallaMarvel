@@ -5,7 +5,6 @@ require 'fileutils'
 begin
   require 'bundler'
   require 'arkana'
-  require 'fastlane'
 rescue LoadError
   `sudo gem install bundler`
   `bundle update`

@@ -15,7 +15,7 @@ extension Hero {
 }
 
 extension Array where Element == Hero {
-    static var mock: [Hero]  {
+    static var mock: [Hero] {
         [
             Hero(
                 id: "1",

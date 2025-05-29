@@ -14,7 +14,7 @@ public struct MD5HashGenerator {
         self.privateKey = privateKey
         self.apiKey = apiKey
     }
-    
+
     func generate() -> String {
         let hash = "\(timeStamp)\(privateKey)\(apiKey)"
         let digest = Insecure.MD5.hash(data: hash.data(using: .utf8) ?? Data())

@@ -29,9 +29,9 @@ public struct ResourceSectionFeature {
             self.hereId = hereId
         }
     }
-    
+
     @Dependency(\.resourceMapper) var resourceMapper
-    
+
     public enum Action: Equatable, BindableAction {
         case resources(ResourceGridRowsFeature.Action)
         case heroDetailsRepository(HeroDetailsRepositoryFeature.Action)
@@ -39,12 +39,12 @@ public struct ResourceSectionFeature {
         case task
         case viewSate(ViewSate)
     }
-    
+
     public enum ViewSate: Equatable {
         case showLoder(isLoading: Bool)
         case showErrorMessage(message: String?)
     }
-    
+
     public var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce<State, Action> { state, action in
@@ -87,9 +87,9 @@ public struct ResourceSectionFeature {
 }
 
 struct ResourceSectionView: View {
-    
+
    @Bindable var store: StoreOf<ResourceSectionFeature>
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -120,7 +120,7 @@ struct ResourceSectionView: View {
 
 #if DEBUG
 #Preview {
-    GeometryReader { proxy in
+    GeometryReader { _ in
         ScrollView {
             ResourceSectionView(
                 store: Store(

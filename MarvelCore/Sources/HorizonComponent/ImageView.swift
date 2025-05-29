@@ -17,7 +17,7 @@ public struct ImageView: View {
         self.placeholder = placeholder
         self.loadFailed = loadFailed
     }
-    
+
     public var body: some View {
         if loadFailed {
             if let size = size {
@@ -26,12 +26,12 @@ public struct ImageView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(maxWidth: .infinity, maxHeight: size.height)
                     .clipped()
-            }else {
+            } else {
                 Image(.placeholder)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity)
-                
+
             }
         } else {
             KFImage(url)
@@ -39,7 +39,7 @@ public struct ImageView: View {
                     ProgressView()
                         .progressViewStyle(.linear)
                 }
-                .onFailure { error in
+                .onFailure { _ in
                     loadFailed = true
                 }
                 .resizable()
@@ -49,7 +49,7 @@ public struct ImageView: View {
                 .clipped()
         }
     }
-    
+
 }
 
 #Preview {

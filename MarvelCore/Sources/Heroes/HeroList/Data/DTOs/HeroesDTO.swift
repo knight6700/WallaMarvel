@@ -53,7 +53,7 @@ enum ItemType: String, Codable {
     case interiorStory = "interiorStory"
     case pinup = "pinup"
     case unknown
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)
@@ -88,7 +88,7 @@ enum URLType: String, Codable {
     case detail = "detail"
     case wiki = "wiki"
     case unknown
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)

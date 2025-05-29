@@ -26,12 +26,12 @@ extension HeroMapper: DependencyKey {
 extension HeroMapper: TestDependencyKey {
     static var testValue: Self {
         HeroMapper(
-            toDomain: { dto in
+            toDomain: { _ in
                     .mock
             }
         )
     }
-    
+
     static var previewValue: Self {
         .testValue
     }

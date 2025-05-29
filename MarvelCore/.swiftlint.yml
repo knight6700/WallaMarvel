@@ -1,6 +1,7 @@
 included:
   - Plugins
   - Source
+  - Heroes
   - Tests
   - Package.swift
 excluded:

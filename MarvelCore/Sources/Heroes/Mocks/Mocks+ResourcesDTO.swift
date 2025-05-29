@@ -2,7 +2,7 @@
 import Foundation
 
 extension ResourcesDTO {
-    static var mock: ResourcesDTO  {
+    static var mock: ResourcesDTO {
         ResourcesDTO(
             offset: 0,
             limit: 20,
@@ -91,7 +91,6 @@ extension Price {
     }
 }
 
-
 extension Creators {
     static var mock: Creators {
         Creators(
@@ -123,6 +122,5 @@ extension Characters {
         )
     }
 }
-
 
 #endif

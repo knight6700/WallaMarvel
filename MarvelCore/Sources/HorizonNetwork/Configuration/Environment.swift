@@ -1,7 +1,6 @@
 import Foundation
 import HorizonKeys
 
-
 enum Environment {
     case debug
     case release

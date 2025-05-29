@@ -17,7 +17,7 @@ public struct LoadingErrorOverlay: ViewModifier {
                     .padding()
                     .background(.ultraThinMaterial)
                     .cornerRadius(10)
-            }else if let error = error {
+            } else if let error = error {
                 VStack {
                     Button("", systemImage: "xmark.circle") {
                         self.error = nil
@@ -56,12 +56,12 @@ extension View {
 
 #Preview {
     @Previewable @State var isLoading = false
-    @Previewable @State var error: String? = nil
+    @Previewable @State var error: String?
     VStack {
         VStack {
             Text("SSSS")
             Spacer()
-            HStack{
+            HStack {
                 Spacer()
                 Text("Heroes.....")
             }
@@ -77,8 +77,8 @@ extension View {
         Button("Show Loading") {
             isLoading = true
         }
-        
-        Button ("Show Error") {
+
+        Button("Show Error") {
             isLoading = false
             error = "Something went wrong"
         }

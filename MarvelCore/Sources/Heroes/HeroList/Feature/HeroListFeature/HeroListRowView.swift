@@ -10,24 +10,24 @@ public struct HeroListRowFeature {
         }
         let hero: Hero
     }
-    
+
     public enum Action: Equatable {
         case rowTapped
         case rowOnAppear
     }
-    
+
     public func reduce(
         into state: inout State,
         action: Action
     ) -> Effect<Action> {
         return .none
     }
-    
+
 }
 struct HeroListRowView: View {
-    
+
     let store: StoreOf<HeroListRowFeature>
-    
+
     var body: some View {
         HeroCell(hero: store.hero)
             .listRowSeparator(.hidden)
