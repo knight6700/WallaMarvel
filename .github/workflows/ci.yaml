@@ -74,18 +74,18 @@ jobs:
             -project WallaMarvel.xcodeproj \
             -scheme WallaMarvel \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4'
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
 
       - name: Test the app
         run: |
           xcodebuild test \
             -project WallaMarvel.xcodeproj \
             -scheme MarvelCoreTests \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4'
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
 
       - name: Run snapshot tests
         run: |
           xcodebuild test \
             -project WallaMarvel.xcodeproj \
             -scheme MarvelSnapshotTests \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4'
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
