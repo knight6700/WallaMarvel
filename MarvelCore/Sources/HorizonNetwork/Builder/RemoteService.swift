@@ -6,7 +6,7 @@ public protocol RemoteService {
     var port: Int? { get }
     var basePath: String { get }
     var requestConfiguration: RequestConfiguration { get }
-    var baseRequestParameters: MarvelAuthParameters { get }
+    var generateMarvelSignature: GenerateMarvelSignature { get }
     var fullURL: URL { get }
 }
 
@@ -46,9 +46,14 @@ public extension RemoteService {
                 encoder: requestConfiguration.encoder
             )
         }
+        let generator = generateMarvelSignature
         try requestConfiguration.encoding?.encode(
             urlRequest: &request,
-            parameters: baseRequestParameters,
+            parameters: MarvelAuthParameters(
+                apiKey: generateMarvelSignature.apiKey,
+                timestamp: generateMarvelSignature.timestamp,
+                hash: generator.hash
+            ),
             encoder: requestConfiguration.encoder
         )
         return request
@@ -63,14 +68,14 @@ fileprivate extension String {
     }
 }
 public struct MarvelServices: RemoteService {
-    public var baseRequestParameters: MarvelAuthParameters
+    public var generateMarvelSignature: GenerateMarvelSignature
     public let requestConfiguration: RequestConfiguration
     public init(
         requestConfiguration: RequestConfiguration,
-        baseRequestParameters: MarvelAuthParameters = .init()
+        generateMarvelSignature: GenerateMarvelSignature = .liveValue
     ) {
         self.requestConfiguration = requestConfiguration
-        self.baseRequestParameters = baseRequestParameters
+        self.generateMarvelSignature = generateMarvelSignature
     }
 }
 

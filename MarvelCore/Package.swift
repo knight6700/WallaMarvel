@@ -71,7 +71,8 @@ let package = Package(
         .target(
             name: "HorizonNetwork",
             dependencies: [
-                keys
+                keys,
+                TCADependency,
             ],
             resources: []
         ),
