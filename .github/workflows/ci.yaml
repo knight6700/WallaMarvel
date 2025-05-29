@@ -26,7 +26,7 @@ jobs:
 
       - name: Run SwiftLint
         run: |
-          swiftlint
+          swiftlint --config marvelCore/.swiftlint.yml
           
   build:
     name: Build and Test App
