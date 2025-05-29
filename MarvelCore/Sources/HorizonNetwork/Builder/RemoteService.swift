@@ -6,7 +6,7 @@ public protocol RemoteService {
     var port: Int? { get }
     var basePath: String { get }
     var requestConfiguration: RequestConfiguration { get }
-    var baseRequestParameters: BaseRequestParameters { get }
+    var baseRequestParameters: MarvelAuthParameters { get }
     var fullURL: URL { get }
 }
 
@@ -63,11 +63,11 @@ fileprivate extension String {
     }
 }
 public struct MarvelServices: RemoteService {
-    public var baseRequestParameters: BaseRequestParameters
+    public var baseRequestParameters: MarvelAuthParameters
     public let requestConfiguration: RequestConfiguration
     public init(
         requestConfiguration: RequestConfiguration,
-        baseRequestParameters: BaseRequestParameters = .init()
+        baseRequestParameters: MarvelAuthParameters = .init()
     ) {
         self.requestConfiguration = requestConfiguration
         self.baseRequestParameters = baseRequestParameters
