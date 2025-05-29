@@ -163,13 +163,43 @@ Built using TCA's modular architecture to manage state, actions, effects, and re
 
 ## **API Integration**
 
-The app fetches data from the **Rick and Morty API**.
+The app fetches data from the **Marvel API**.
 
 ### **Endpoints**
+### 🔗 Marvel API Authentication
+
+To fetch characters from the Marvel API, use the following URL format:
+
+```
+https://gateway.marvel.com/v1/public/characters?limit={Int}&offset={Int}&ts={Int}&apikey={String}&hash={String}
+```
+
+#### 🧩 Required Parameters
+
+| Parameter        | Description                                                                                                                             |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `limit`          | Number of results to return.                                                                                                            |
+| `offset`         | Pagination offset.                                                                                                                      |
+| `ts` (timestamp) | A unique timestamp. Usually the current time in seconds:<br>`String(Int(Date().timeIntervalSince1970))`                                 |
+| `apikey`         | Your **public** API key from [Marvel Developer Portal](https://developer.marvel.com).                                                   |
+| `hash`           | An MD5 hash of: <br>`timestamp + privateKey + publicKey`<br>For example:<br>`"\(timestamp)\(privateKey)\(publicKey)"` hashed using MD5. |
+| `privateKey`     | Your **private** API key (keep this secret). Available after registering on Marvel Developer Portal.                                    |
+| `name` (Optional)     | Name of the hero you want to search for.                                    |
+
+#### 🔐 Hash Generation (Swift Example)
+
+```swift
+let timestamp = String(Int(Date().timeIntervalSince1970))
+let input = "\(timestamp)\(privateKey)\(publicKey)"
+let hash = input.md5() // Use an MD5 hashing function
+```
+
+> ✅ The `hash` is required for authenticating API requests and must be computed for every call.
 1. **Fetch All Characters**  
    - URL: `https://gateway.marvel.com/v1/public/characters?limit={Int}&offset={Int}&ts={Int}&apikey={String}&hash={String}`
-
-2. **Fetch Resources**  
+2. **Character Search**  
+   - URL: `https://gateway.marvel.com/v1/public/characters?limit={Int}&offset={Int}&ts={Int}&apikey={String}&hash={String}&name={String}`
+3. **Fetch Resources**  
    - URL: `https://gateway.marvel.com/v1/public/characters/{character_Id}/{resourceType}?limit={Int}&offset={Int}&ts={Int}&apikey={String}&hash={String}`
    - Resource Type:  `comics`, `series`, or `stories`.  
 
@@ -182,7 +212,8 @@ The app fetches data from the **Rick and Morty API**.
 
 ---
 ## **Issues**
-- [API](https://github.com/knight6700/WallaMarvel/issues/6): The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
+- [Duplicated Id](https://github.com/knight6700/WallaMarvel/issues/6):
+ The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
 ---
 
 ## **Contributing**
