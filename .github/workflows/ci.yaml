@@ -67,10 +67,12 @@ jobs:
           echo "- privateKeyRelease: ${privateKeyRelease:0:4}..."
           
           bundle exec arkana
-
+      - name: Skip Macros
+        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+            
       - name: Build the app
         run: |
-          xcodebuild clean build \
+          xcodebuild build \
             -project WallaMarvel.xcodeproj \
             -scheme WallaMarvel \
             -configuration Debug \
