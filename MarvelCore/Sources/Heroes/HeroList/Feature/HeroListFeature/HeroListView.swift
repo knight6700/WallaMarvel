@@ -64,6 +64,7 @@ public struct HeroListFeature {
             case .reload:
                 state.heroes.removeAll()
                 return .concatenate(
+                    .send(.repository(.cancel)),
                     .send(.viewState(.showLoader(true))),
                     .send(.fetch(isRefreshable: true))
                 )

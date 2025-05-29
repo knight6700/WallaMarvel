@@ -29,7 +29,9 @@ import HorizonNetwork
          case fetchHeroes(name: String?, isRefreshable: Bool)
          case response(Result<[Hero], APIError>, Int)
          case delegate(Delegate)
+         case cancel
      }
+     private enum CancelID { case fetchHeroes}
     
      public func reduce(
         into state: inout State,
@@ -41,17 +43,19 @@ import HorizonNetwork
             return .run { [offset = state.offset,
                            remote = remote,
                            mapper = mapper] send in
-                do {
-                    await send(.delegate(.showLoader(isRefreshable)))
-                    let params = HeroesParams(name: name, offset: offset)
-                    let response = try await remote.fetchHeroes(params)
-                    let domainModel = mapper.toDomain(response.data.results)
-                    await send(.response(.success(domainModel), response.data.total))
-                } catch {
-                    guard let error = error as? APIError else {
-                        return
+                await withTaskCancellation(id: CancelID.fetchHeroes) {
+                    do {
+                        await send(.delegate(.showLoader(isRefreshable)))
+                        let params = HeroesParams(name: name, offset: offset)
+                        let response = try await remote.fetchHeroes(params)
+                        let domainModel = mapper.toDomain(response.data.results)
+                        await send(.response(.success(domainModel), response.data.total))
+                    } catch {
+                        guard let error = error as? APIError else {
+                            return
+                        }
+                        await send(.response(.failure(error), 0))
                     }
-                    await send(.response(.failure(error), 0))
                 }
             }
         case let .response(result, totalPages):
@@ -65,6 +69,8 @@ import HorizonNetwork
             case .failure(let failure):
                 return .send(.delegate(.showErrorMessage(failure.errorDescription ?? "Something went to wrong")))
             }
+        case .cancel:
+            return .cancel(id: CancelID.fetchHeroes)
         case .delegate:
             return .none
         }
