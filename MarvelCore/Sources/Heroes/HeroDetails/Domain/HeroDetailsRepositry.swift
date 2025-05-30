@@ -8,6 +8,7 @@ public struct HeroDetailsRepositoryFeature {
     public struct State: Equatable {}
 
     @Dependency(\.heroDetailsRemoteDataSource) var remoteDataSource
+    // TODO: - Move mapper from here and implement Mapper in ResourceSectionFeature
     @Dependency(\.heroDetailsMapper) var heroDetailsMapper
 
     public enum Delegate: Equatable {

@@ -1,6 +1,8 @@
+
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-blue.svg?style=flat)
 ![Swift5.9](https://img.shields.io/badge/Swift_Version-6.0-blue?logo=swift)
 ![Swift Package Manager](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)
+
 # Heroes App 📱
 
 **Heros App** is a Swift-based iOS application built using TCA architecture. The app displays a list of Hereos with their details and allows search Heroes by their names.
@@ -17,15 +19,16 @@
    - [Hero Details](#2-hero-details)
 5. [Setup & Installation](#setup--installation)
 6. [Architecture Overview](#architecture-overview)  
-7. [TCA Digram](#tca-digram)
-8. [Key Improvements](#key-improvements)
-9. [Dependencies](#dependencies)
-10. [API Integration](#api-integration)  
-    - [Endpoints](#endpoints)
-11. [Future Enhancements](#future-enhancements)
-12. [Issues](#issues)
-13. [Contributing](#contributing)
-14. [License](#license)
+7. [Git Workflow](#git-workflow)
+8. [Modules](#modules)
+9. [Diagrams](#diagrams)
+10. [Key Improvements](#key-improvements)
+11. [Dependencies](#dependencies)
+12. [API Integration](#api-integration)  
+13. [Future Enhancements](#future-enhancements)
+14. [Issues](#issues)
+15. [Contributing](#contributing)
+16. [License](#license)
 
 ---
 
@@ -43,9 +46,8 @@
 ## **App Screenshots**
 
 | **Heroes List**  | **Hereos Details**                                                                                                                                                              
-|-------------------------------------------------------------|----------------------------------------------------------------------------------------------------
+|------------------|----------------------------------------------------------------------------------------------------
 | <img src="https://github.com/user-attachments/assets/05d46ce5-0bed-41d9-a246-d383946bf28c" alt="hero List" width="400" height="500"> | <img src="https://github.com/user-attachments/assets/30b809a7-6908-40e0-b6b9-27a36c918520" alt="hero List" width="400" height="500">  
-| Displays a list of all heroes, including their name, species, and status.                       | Shows detailed information about a selected Hero.         | 
 
 ---
 
@@ -101,66 +103,97 @@ The app adopts **TCA (The Composable Architecture)** to structure features in a 
 
 ---
 
-### **Data Layer**
+## **Git Workflow**
 
-This layer handles data retrieval and transformation from remote sources.
+We use **GitFlow** to manage our development process. The main branches include:
 
-* **`HeroesDTO`**: Data Transfer Object representing the raw structure returned from the API.
-* **`HeroRemoteDataSource`**: Responsible for making API calls to fetch hero data.
-* **`HeroMapper`**: Maps `HeroesDTO` to domain-specific models.
-* **`Parameters`**: Encapsulates API query parameters.
+- `main`: Production-ready code.
+- `develop`: Ongoing development and integration.
+- `feature/*`: New features are developed here and then merged into `develop`.
+- `hotfix/*`: For urgent fixes on `main`.
 
----
+### Git Workflow Summary
+```text
+main ← hotfix/*
+↑
+develop ← feature/*
+```
 
-### **Domain Layer**
-
-Encapsulates business logic and defines contracts between the data and presentation layers.
-
-* **Models**:
-
-  * `Hero`: Core domain model representing a hero.
-  * `SearchSuggestions`: Holds logic for filtering/searching heroes.
-  * `ThumbnailURLBuilder`: Helps build image URLs.
-* **Repository**:
-
-  * `HeroRepository`: Acts as the abstraction over the data layer and exposes domain-ready data.
-  * **HeroPreFetch**: Contains logic to pre-fetch or cache data for better UX.
+> Always create branches from `develop` for new features and from `main` for hotfixes.
 
 ---
 
-### **Feature Layer (Presentation)**
+## **Modules**
 
-Built using TCA's modular architecture to manage state, actions, effects, and reducers.
+The project is organized into multiple Swift modules to ensure separation of concerns and modular scalability:
 
-* **`HeroListFeature`**: Implements the main feature showing the list of heroes. It includes:
+1. **Heroes**  
+   - Manages everything related to hero listing and details.
+   - Includes:
+     - Hero List view.
+     - Hero Details view.
+     - Coordinator logic for navigation between these screens.
 
-  * `State`: Holds UI-relevant data.
-  * `Action`: Defines all user and system-driven events.
-  * `Reducer`: Handles state mutation based on actions.
-  * `Effect`: Handles side effects like API calls or async operations.
-* **`HeroCell`**: Represents a reusable UI component for displaying a single hero in the list.
+2. **HorizonComponents**  
+   - Contains all reusable UI components.
+   - Encourages UI consistency and code reusability across the app.
+
+3. **HorizonNetwork**  
+   - Handles all remote API communications.
+   - Includes:
+     - API client.
+     - Endpoint configuration.
+     - Network error handling.
 
 ---
 
-## **TCA Digram**
+## **Diagrams**
+### App Graph:
+```mermaid
+flowchart TD
+ subgraph subGraph0["Data Layer"]
+        DTO["Data Transfer Object"]
+        RDS["RemoteDataSource"]
+        Mapper["Mapper"]
+  end
+ subgraph subGraph1["Domain Layer"]
+        Repo["Repository Reducer"]
+        Model["Model"]
+  end
+ subgraph subGraph2["Feature Layer (TCA)"]
+        State["State"]
+        Action["Action"]
+        Reducer["Reducer"]
+  end
+    DTO --> Mapper
+    RDS --> DTO
+    Mapper --> Repo
+    Repo --> Model & State & Action
+    Action --> Reducer
+    Reducer --> State
+```
+### TCA: 
 ![1_Ob3Ulthtg-C6D-mvGvNfkA](https://github.com/user-attachments/assets/1c7624a8-edfd-42ba-a69f-8db178b815ea)
 [for more details](https://github.com/pointfreeco/swift-composable-architecture)
+
+---
 
 ## **Key Improvements**
 1. **Grid View or CollectionVieew**: Create a `Grid View` or `CollectionView` to efficiently display resources (e.g., comics).
 2. **Encryption Module**: Implement an encryption module using the Arkana library and MD5, or any other suitable encryption technique.
+3. **Network**: remore static func for remote.
 
 ---
 
 ## **Dependencies**
-- `SwiftUI`: For building the UI.
-- `URLSession`: For API communication.
-- `Kingfisher`: For image downloading and caching.
-- `Snapshot-Testing`: For snapshot views.
-- `Netfox`: For debugging network requests.
-- `SwiftLintPlugin`:  A tool to enforce Swift style and conventions within your project. 
-- `TCA Framework`: A Swift framework for managing state, side effects, and app architecture in a modular and testable way
-
+- [`SwiftUI`](https://developer.apple.com/tutorials/swiftui/): For building the UI.
+- [`URLSession`](https://developer.apple.com/documentation/foundation/urlsession): For API communication.
+- [`Kingfisher`](https://github.com/onevcat/Kingfisher): For image downloading and caching.
+- [`Snapshot-Testing`](https://github.com/pointfreeco/swift-snapshot-testing): For snapshot views.
+- [`Netfox`](https://github.com/kasketis/netfox): For debugging network requests.
+- [`TCA Framework`](https://github.com/pointfreeco/swift-composable-architecture): A Swift framework for managing state, side effects, and app architecture in a modular and testable way
+- [`IdentifiedCollections`](https://github.com/pointfreeco/swift-identified-collections): When modeling a collection of elements in your application's state, it is easy to reach for a standard Array.
+- [`swift-dependencies`](https://github.com/pointfreeco/swift-dependencies):  A dependency management library inspired by SwiftUI's "environment.". 
 ---
 
 ## **API Integration**
@@ -197,6 +230,7 @@ let hash = input.md5() // Use an MD5 hashing function
 ```
 
 > ✅ The `hash` is required for authenticating API requests and must be computed for every call.
+
 1. **Fetch All Characters**  
    - URL: `https://gateway.marvel.com/v1/public/characters?limit={Int}&offset={Int}&ts={Int}&apikey={String}&hash={String}`
 2. **Character Search**  
@@ -213,9 +247,11 @@ let hash = input.md5() // Use an MD5 hashing function
 - 📊 **Statistics**: Display stats for the number of alive, dead, and unknown characters.
 
 ---
+
 ## **Issues**
 - [Duplicated Id](https://github.com/knight6700/WallaMarvel/issues/6):
  The API was returning duplicate heroes with the same ID, so we resolved it by using a unique id (generated with UUID().uuidString) alongside the original heroId (Int) from the API.
+
 ---
 
 ## **Contributing**

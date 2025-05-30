@@ -41,7 +41,7 @@ public struct ResourceSectionFeature {
     }
 
     public enum ViewSate: Equatable {
-        case showLoder(isLoading: Bool)
+        case showLoader(isLoading: Bool)
         case showErrorMessage(message: String?)
     }
 
@@ -58,9 +58,9 @@ public struct ResourceSectionFeature {
                 case let .model(model):
                     let resources = resourceMapper.toDomain(model)
                     state.resources = resources
-                    return .send(.viewSate(.showLoder(isLoading: false)))
+                    return .send(.viewSate(.showLoader(isLoading: false)))
                 case let .showLoader(isLoading):
-                    return .send(.viewSate(.showLoder(isLoading: isLoading)))
+                    return .send(.viewSate(.showLoader(isLoading: isLoading)))
                 case let .showErrorMessage(errorMessage):
                     return .send(.viewSate(.showErrorMessage(message: errorMessage)))
                 }
@@ -68,7 +68,7 @@ public struct ResourceSectionFeature {
                 return .none
             case let .viewSate(viewSate):
                 switch viewSate {
-                case let .showLoder(isLoading):
+                case let .showLoader(isLoading):
                     state.isLoading = isLoading
                 case let .showErrorMessage(errorMessage):
                     state.isLoading = false
