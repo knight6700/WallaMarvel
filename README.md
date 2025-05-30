@@ -165,12 +165,13 @@ flowchart TD
         Action["Action"]
         Reducer["Reducer"]
   end
-    DTO --> Mapper
-    RDS --> DTO
-    Mapper --> Repo
-    Repo --> Model & State & Action
+    Repo --> State & Action
     Action --> Reducer
     Reducer --> State
+    Mapper -- ToDomain --> Action
+    RDS --> Repo
+    RDS -- Fetch --> DTO
+    DTO --> Mapper
 ```
 ### TCA: 
 ![1_Ob3Ulthtg-C6D-mvGvNfkA](https://github.com/user-attachments/assets/1c7624a8-edfd-42ba-a69f-8db178b815ea)
