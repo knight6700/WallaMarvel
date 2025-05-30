@@ -72,7 +72,7 @@ On selecting a hero from the list, a detail view is shown with the character's:
 
 ---
 
-## 🚀 **Setup & Installation**
+## **Setup & Installation**
 
 1. **Clone the Repository**  
    ```bash
