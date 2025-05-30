@@ -18,7 +18,7 @@ struct HeroDetailsTests {
                                 resources: ResourceGridRowsFeature.State(
                                     resourceDetailsRows: .mock
                                 ),
-                                heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                                heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                                 hereId: 1
                             ),
                             ResourceSectionFeature.State(
@@ -26,7 +26,7 @@ struct HeroDetailsTests {
                                 resources: ResourceGridRowsFeature.State(
                                     resourceDetailsRows: .mock
                                 ),
-                                heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                                heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                                 hereId: 2
                             ),
                             ResourceSectionFeature.State(
@@ -34,7 +34,7 @@ struct HeroDetailsTests {
                                 resources: ResourceGridRowsFeature.State(
                                     resourceDetailsRows: .mock
                                 ),
-                                heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                                heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                                 hereId: 3
                             ),
                         ]

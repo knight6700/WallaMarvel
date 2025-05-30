@@ -13,14 +13,14 @@ public struct ResourceSectionFeature {
 
         let sectionType: ResourceSection
         var resources: ResourceGridRowsFeature.State
-        var heroDetailsRepository: HeroDetailsRepositoryFeature.State
+        var heroDetailsRepository: HeroDetailsUseCaseFeature.State
         var isLoading: Bool = false
         var errorMessage: String?
         let hereId: Int
         init(
             sectionType: ResourceSection,
             resources: ResourceGridRowsFeature.State,
-            heroDetailsRepository: HeroDetailsRepositoryFeature.State,
+            heroDetailsRepository: HeroDetailsUseCaseFeature.State,
             hereId: Int
         ) {
             self.sectionType = sectionType
@@ -34,7 +34,7 @@ public struct ResourceSectionFeature {
 
     public enum Action: Equatable, BindableAction {
         case resources(ResourceGridRowsFeature.Action)
-        case heroDetailsRepository(HeroDetailsRepositoryFeature.Action)
+        case heroDetailsRepository(HeroDetailsUseCaseFeature.Action)
         case binding(BindingAction<State>)
         case task
         case viewSate(ViewSate)
@@ -81,7 +81,7 @@ public struct ResourceSectionFeature {
             state: \.heroDetailsRepository,
             action: \.heroDetailsRepository
         ) {
-            HeroDetailsRepositoryFeature()
+            HeroDetailsUseCaseFeature()
         }
     }
 }
@@ -129,7 +129,7 @@ struct ResourceSectionView: View {
                         resources: ResourceGridRowsFeature.State(
                             resourceDetailsRows: .mock
                         ),
-                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                         hereId: 0
                     ),
                     reducer: { ResourceSectionFeature()

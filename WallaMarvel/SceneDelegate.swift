@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let view = HeroCoordinatorFeatureRouterView(
             store: Store(
                 initialState: HeroCoordinatorFeature.State(
-                    root: HeroListFeature.State(heroes: [], repositoryState: HeroRepositoryFeature.State())
+                    root: HeroListFeature.State(heroes: [], repositoryState: HeroUseCaseFeature.State())
                 ),
                 reducer: {
                     HeroCoordinatorFeature()

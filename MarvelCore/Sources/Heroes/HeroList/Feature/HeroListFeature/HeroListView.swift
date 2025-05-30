@@ -7,7 +7,7 @@ public struct HeroListFeature {
     @ObservableState
     public struct State: Equatable {
         var heroes: IdentifiedArrayOf<HeroListRowFeature.State> = []
-        var repositoryState: HeroRepositoryFeature.State
+        var repositoryState: HeroUseCaseFeature.State
         var searchText: String = ""
         var suggestNames: IdentifiedArrayOf<SearchSuggestions> = []
         var filteredSuggestions: [SearchSuggestions] {
@@ -27,7 +27,7 @@ public struct HeroListFeature {
 
         public init(
             heroes: IdentifiedArrayOf<HeroListRowFeature.State>,
-            repositoryState: HeroRepositoryFeature.State
+            repositoryState: HeroUseCaseFeature.State
         ) {
             self.heroes = heroes
             self.repositoryState = repositoryState
@@ -49,7 +49,7 @@ public struct HeroListFeature {
     public enum Action: Equatable, BindableAction {
         case heroes(IdentifiedActionOf<HeroListRowFeature>)
         case fetch(isRefreshable: Bool)
-        case repository(HeroRepositoryFeature.Action)
+        case repository(HeroUseCaseFeature.Action)
         case binding(BindingAction<State>)
         case reload
         case delegate(Delegate)
@@ -132,7 +132,7 @@ public struct HeroListFeature {
             state: \.repositoryState,
             action: \.repository
         ) {
-            HeroRepositoryFeature()
+            HeroUseCaseFeature()
         }
     }
 }
@@ -223,7 +223,7 @@ public struct HeroListView: View {
             store: Store(
                 initialState: HeroListFeature.State(
                     heroes: .mock,
-                    repositoryState: HeroRepositoryFeature.State()
+                    repositoryState: HeroUseCaseFeature.State()
                 ),
                 reducer: { HeroListFeature()
                 }

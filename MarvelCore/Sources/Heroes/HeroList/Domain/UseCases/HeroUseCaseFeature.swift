@@ -3,7 +3,7 @@ import ComposableArchitecture
 import HorizonNetwork
 
 @Reducer
- public struct HeroRepositoryFeature {
+ public struct HeroUseCaseFeature {
     @ObservableState
     public struct State: Equatable {
         var offset: Int = -1
@@ -16,7 +16,6 @@ import HorizonNetwork
     }
 
     @Dependency(\.heroRemoteDataSource) var remote
-     // TODO: - Move mapper from here and implement Mapper in HeroListFeature
     @Dependency(\.heroMapper) var mapper
      public init() {
      }
