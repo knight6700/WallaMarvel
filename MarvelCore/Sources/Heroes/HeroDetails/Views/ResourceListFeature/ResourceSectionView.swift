@@ -13,14 +13,14 @@ public struct ResourceSectionFeature {
 
         let sectionType: ResourceSection
         var resources: ResourceGridRowsFeature.State
-        var heroDetailsRepository: HeroDetailsRepositoryFeature.State
+        var heroDetailsRepository: HeroDetailsUseCaseFeature.State
         var isLoading: Bool = false
         var errorMessage: String?
         let hereId: Int
         init(
             sectionType: ResourceSection,
             resources: ResourceGridRowsFeature.State,
-            heroDetailsRepository: HeroDetailsRepositoryFeature.State,
+            heroDetailsRepository: HeroDetailsUseCaseFeature.State,
             hereId: Int
         ) {
             self.sectionType = sectionType
@@ -34,14 +34,14 @@ public struct ResourceSectionFeature {
 
     public enum Action: Equatable, BindableAction {
         case resources(ResourceGridRowsFeature.Action)
-        case heroDetailsRepository(HeroDetailsRepositoryFeature.Action)
+        case heroDetailsRepository(HeroDetailsUseCaseFeature.Action)
         case binding(BindingAction<State>)
         case task
         case viewSate(ViewSate)
     }
 
     public enum ViewSate: Equatable {
-        case showLoder(isLoading: Bool)
+        case showLoader(isLoading: Bool)
         case showErrorMessage(message: String?)
     }
 
@@ -58,9 +58,9 @@ public struct ResourceSectionFeature {
                 case let .model(model):
                     let resources = resourceMapper.toDomain(model)
                     state.resources = resources
-                    return .send(.viewSate(.showLoder(isLoading: false)))
+                    return .send(.viewSate(.showLoader(isLoading: false)))
                 case let .showLoader(isLoading):
-                    return .send(.viewSate(.showLoder(isLoading: isLoading)))
+                    return .send(.viewSate(.showLoader(isLoading: isLoading)))
                 case let .showErrorMessage(errorMessage):
                     return .send(.viewSate(.showErrorMessage(message: errorMessage)))
                 }
@@ -68,7 +68,7 @@ public struct ResourceSectionFeature {
                 return .none
             case let .viewSate(viewSate):
                 switch viewSate {
-                case let .showLoder(isLoading):
+                case let .showLoader(isLoading):
                     state.isLoading = isLoading
                 case let .showErrorMessage(errorMessage):
                     state.isLoading = false
@@ -81,7 +81,7 @@ public struct ResourceSectionFeature {
             state: \.heroDetailsRepository,
             action: \.heroDetailsRepository
         ) {
-            HeroDetailsRepositoryFeature()
+            HeroDetailsUseCaseFeature()
         }
     }
 }
@@ -129,7 +129,7 @@ struct ResourceSectionView: View {
                         resources: ResourceGridRowsFeature.State(
                             resourceDetailsRows: .mock
                         ),
-                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                         hereId: 0
                     ),
                     reducer: { ResourceSectionFeature()

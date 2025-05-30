@@ -13,7 +13,7 @@ struct HeroListTests {
             store: Store(
                 initialState: HeroListFeature.State(
                     heroes: .mock,
-                    repositoryState: HeroRepositoryFeature.State()
+                    repositoryState: HeroUseCaseFeature.State()
                 ),
                 reducer: { HeroListFeature()
                 }

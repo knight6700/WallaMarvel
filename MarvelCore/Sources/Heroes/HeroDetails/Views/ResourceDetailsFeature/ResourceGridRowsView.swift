@@ -6,6 +6,9 @@ public struct ResourceGridRowsFeature {
     @ObservableState
     public struct State: Equatable {
         var resourceDetailsRows: IdentifiedArrayOf<ResourceGridRowFeature.State>
+        var showUnAvailableContent: Bool {
+            resourceDetailsRows.isEmpty
+        }
     }
 
     public enum Action: Equatable {
@@ -53,8 +56,21 @@ struct ResourceGridRowsView: View {
                                 )
                         }
                 }
+                contentUnavailable
             }
             .scrollContentBackground(.hidden)
+        }
+    }
+}
+extension ResourceGridRowsView {
+    @ViewBuilder
+    var contentUnavailable: some View {
+        if store.showUnAvailableContent {
+            ContentUnavailableView {
+                Text("No Available Content")
+            } description: {
+                Text("Try another Hero.")
+            }
         }
     }
 }

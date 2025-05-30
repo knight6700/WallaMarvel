@@ -3,7 +3,7 @@ import ComposableArchitecture
 import HorizonNetwork
 
 @Reducer
-public struct HeroDetailsRepositoryFeature {
+public struct HeroDetailsUseCaseFeature {
     @ObservableState
     public struct State: Equatable {}
 

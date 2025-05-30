@@ -70,19 +70,19 @@ extension HeroCoordinatorFeature.State {
                     ResourceSectionFeature.State(
                         sectionType: .comics,
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                         hereId: hero.heroId
                     ),
                     ResourceSectionFeature.State(
                         sectionType: .series,
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                         hereId: hero.heroId
                     ),
                     ResourceSectionFeature.State(
                         sectionType: .stories,
                         resources: ResourceGridRowsFeature.State(resourceDetailsRows: []),
-                        heroDetailsRepository: HeroDetailsRepositoryFeature.State(),
+                        heroDetailsRepository: HeroDetailsUseCaseFeature.State(),
                         hereId: hero.heroId
                     )
                 ]

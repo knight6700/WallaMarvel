@@ -9,7 +9,7 @@ struct HeroListFeatureTests {
     @Test("Test fetch heroes with success state")
     func testFetchHeroesWithSuccessState() async {
         let store = TestStore(
-            initialState: HeroListFeature.State(heroes: [], repositoryState: HeroRepositoryFeature.State())) {
+            initialState: HeroListFeature.State(heroes: [], repositoryState: HeroUseCaseFeature.State())) {
             HeroListFeature()
           } withDependencies: {
               $0.heroRemoteDataSource = .testValue
@@ -17,7 +17,7 @@ struct HeroListFeatureTests {
         await store.send(.task)
         await store.receive(.repository(.fetchHeroes(name: nil, isRefreshable: true))) {
             $0.isLoading = false
-            $0.repositoryState = HeroRepositoryFeature.State(offset: 0, total: 0)
+            $0.repositoryState = HeroUseCaseFeature.State(offset: 0, total: 0)
         }
         await store.receive(.repository(.delegate(.showLoader(true))))
         await store.receive(.viewState(.showLoader(true))) {
@@ -39,7 +39,7 @@ struct HeroListFeatureTests {
     @Test("Test fetch heroes with error state")
     func testFetchHeroesWithErrorState() async {
         let store = TestStore(
-            initialState: HeroListFeature.State(heroes: [], repositoryState: HeroRepositoryFeature.State())) {
+            initialState: HeroListFeature.State(heroes: [], repositoryState: HeroUseCaseFeature.State())) {
             HeroListFeature()
           } withDependencies: {
               $0.heroRemoteDataSource = .failValue
@@ -47,7 +47,7 @@ struct HeroListFeatureTests {
         await store.send(.task)
         await store.receive(.repository(.fetchHeroes(name: nil, isRefreshable: true))) {
             $0.isLoading = false
-            $0.repositoryState = HeroRepositoryFeature.State(offset: 0, total: 0)
+            $0.repositoryState = HeroUseCaseFeature.State(offset: 0, total: 0)
         }
         await store.receive(.repository(.delegate(.showLoader(true))))
         await store.receive(.viewState(.showLoader(true))) {
