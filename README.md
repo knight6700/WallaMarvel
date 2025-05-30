@@ -72,7 +72,7 @@ On selecting a hero from the list, a detail view is shown with the character's:
 
 ---
 
-## **Setup & Installation**
+## 🚀 **Setup & Installation**
 
 1. **Clone the Repository**  
    ```bash
@@ -94,7 +94,7 @@ On selecting a hero from the list, a detail view is shown with the character's:
 5. **Run the App**  
    - Select a simulator or a connected device.
    - Click the **Run** button or press `⌘R`.
-
+- 🔐 Note: For production builds, you can update the API keys via GitHub Secrets or your CI/CD environment. 
 ---
 
 ## **Architecture Overview**
