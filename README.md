@@ -150,28 +150,47 @@ The project is organized into multiple Swift modules to ensure separation of con
 ## **Diagrams**
 ### App Graph:
 ```mermaid
-flowchart TD
- subgraph subGraph0["Data Layer"]
-        DTO["Data Transfer Object"]
-        RDS["RemoteDataSource"]
-        Mapper["Mapper"]
-  end
- subgraph subGraph1["Domain Layer"]
-        Repo["Repository Reducer"]
-        Model["Model"]
-  end
- subgraph subGraph2["Feature Layer (TCA)"]
-        State["State"]
-        Action["Action"]
-        Reducer["Reducer"]
-  end
-    Repo --> State & Action
-    Action --> Reducer
-    Reducer --> State
-    Mapper -- ToDomain --> Action
-    RDS --> Repo
-    RDS -- Fetch --> DTO
-    DTO --> Mapper
+graph TD
+    subgraph "Feature Layer"
+        Store[Store]
+        Action[Action]
+        State[State]
+        Reducer[Reducer]
+        
+        Store --> Reducer
+        Action --> Reducer
+        Reducer --> State
+    end
+    
+    subgraph "Domain Layer"
+        UseCase[UseCase]
+        Repository[Repository]
+        Mapper[Mapper]
+        
+        UseCase --> Repository
+        UseCase --> Mapper
+    end
+    
+    subgraph "Data Layer"
+        RemoteDataSource[Remote Data Source]
+        LocalCache[Local Caching]
+        
+        Repository --> RemoteDataSource
+        Repository --> LocalCache
+    end
+    
+    %% Layer interactions
+    Store -.-> UseCase
+    UseCase -.-> Store
+    
+    %% Styling
+    classDef featureLayer fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef domainLayer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef dataLayer fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    
+    class Store,Action,State,Reducer featureLayer
+    class UseCase,Repository,Mapper domainLayer
+    class RemoteDataSource,LocalCache dataLayer
 ```
 ### TCA: 
 ![1_Ob3Ulthtg-C6D-mvGvNfkA](https://github.com/user-attachments/assets/1c7624a8-edfd-42ba-a69f-8db178b815ea)
@@ -245,7 +264,7 @@ let hash = input.md5() // Use an MD5 hashing function
 ## **Future Enhancements**
 - 🌎 **Connectivity Check**: Show a "No Internet" alert automatically when the device is offline.
 - 🔥 **Caching**: Implement API caching using an appropriate technique to improve performance and reduce network usage.
-- 📊 **Statistics**: Display stats for the number of alive, dead, and unknown characters.
+- 📊 **Statistics**: Displays statistics for the heroes fetched through the details and search features.
 
 ---
 
