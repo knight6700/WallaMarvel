@@ -15,8 +15,8 @@ import HorizonNetwork
         }
     }
 
-    @Dependency(\.heroRemoteDataSource) var remote
-    @Dependency(\.heroMapper) var mapper
+    @Dependency(\.heroRemoteDataSource) var remoteDataSource
+    @Dependency(\.heroMapper) var heroMapper
      public init() {
      }
      public enum Delegate: Equatable {
@@ -41,8 +41,8 @@ import HorizonNetwork
         case let .fetchHeroes(name, isRefreshable):
             state.offset = isRefreshable ? 0 : state.offset + 1
             return .run { [offset = state.offset,
-                           remote = remote,
-                           mapper = mapper] send in
+                           remote = remoteDataSource,
+                           mapper = heroMapper] send in
                 await withTaskCancellation(id: CancelID.fetchHeroes) {
                     do {
                         await send(.delegate(.showLoader(isRefreshable)))
