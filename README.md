@@ -78,7 +78,8 @@ On selecting a hero from the list, a detail view is shown with the character's:
    ```
 2. **Install all dependancies with Gem**  
    - Open `Terminal`
-   - ```ruby onboarding.rb```
+   - ``` chmod +x onboarding.sh ```
+   - ``` \.onboarding.rb```
    - Write private and public keys Api for `Debug` and `Release`
 
 3. **Open in Xcode**  
@@ -239,5 +240,4 @@ Contributions are welcome! Follow these steps to contribute:
 ## **License**
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
-
 ---
