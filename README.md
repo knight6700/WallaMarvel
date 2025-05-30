@@ -78,8 +78,9 @@ On selecting a hero from the list, a detail view is shown with the character's:
    ```
 2. **Install all dependancies with Gem**  
    - Open `Terminal`
+   - ```cd project-path```
    - ``` chmod +x onboarding.sh ```
-   - ``` \.onboarding.rb```
+   - ``` \.onboarding.sh```
    - Write private and public keys Api for `Debug` and `Release`
 
 3. **Open in Xcode**  
